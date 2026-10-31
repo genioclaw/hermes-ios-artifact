@@ -1,50 +1,54 @@
-# Hermes for iPhone — product artifact
+# Hermes for iPhone: public product artifact
 
-A self-contained public product/design artifact for a private native SwiftUI client that connects to an owner-controlled Hermes Agent gateway.
+A self-contained, public, sanitized design artifact for a private native SwiftUI client that talks to an owner-run [Hermes Agent](https://hermes-agent.nousresearch.com/) gateway.
+
+> **Everything here is a demo fixture.** "Ren" is a sanitized persona: a Brazilian software entrepreneur whose company, Genio Tech, builds Genio IA, Anotar, and GlipOne. Ren studies German A2 and Mandarin A1 and is interested in tennis, aviation, travel, fitness, and design. Reminders, messages, calendar items, products, prices, merchants, deliveries, memories, and confidence values are invented. No credentials, hostnames, accounts, addresses, contacts, or business metrics are included.
 
 ## Open
 
-Open `index.html` directly in a modern browser. It also works as a GitHub Pages root with no build step, package manager, external fonts, or remote assets.
+Open `index.html` in a modern browser. No build step, package manager, external fonts, remote images, or network requests. It also works as a static GitHub Pages root.
 
-## Contents
+## Files
 
-- `index.html` — responsive PRD reading layout and clickable iPhone prototype
-- `PRD.md` — full product requirements document
-- `README.md` — project orientation
+- `index.html`: page with an interactive iPhone prototype and a product summary (inline CSS and JS)
+- `PRD.md`: full product requirements: surfaces, structured blocks, knowledge-graph governance, the documented Hermes API surface and discovery plan, offline/reconnect, architecture, security, milestones, risks, acceptance criteria
+- `README.md`: this file
 
-## Prototype path
+## Prototype tour
 
-1. Unlock with Face ID
-2. Open or create a session
-3. Inspect streaming and tool activity
-4. Open the approval request and approve or deny it
-5. Open the attachment tray and voice recorder
-6. Review gateway and security settings
+The phone starts locked. Tap **Unlock with Face ID (demo)**; no biometric runs in a browser. Use the phone's tab bar or the list beside the phone.
 
-Use the screen tabs beside the phone to jump directly to any state. Keyboard focus and reduced-motion preferences are supported.
+| Surface | Try |
+|---|---|
+| **Today** | Check off reminders; expand the read-only inbox and calendar briefings; tap the Travel/Fitness cards to deep link to a map node, Business to prefill a chat draft, Shopping to compare |
+| **Chat** | Expand the tool row; toggle a structured block's text fallback; attach demo photo/file chips and remove them; record a simulated voice note; send (fixture reply); open the approval and approve or deny |
+| **Learn** | German A2: play the example (browser speech, if available), rate **1 new / 2 forgot / 3 known** with buttons or keys. Each rating jumps to the next unseen word. Mandarin A1: reveal pinyin and meaning. Flags: guess in English or Portuguese, then see EN/PT names, location, and ISO codes |
+| **Shop** | Favorite, favorites-only filter, eliminate/restore, select 2–3 to compare. Images are illustrative inline SVG; price, merchant, and delivery are marked unverified |
+| **Knowledge Map** | Drag to pan, pinch or scroll to zoom, +/−/reset buttons, tap a node for provenance, confidence, and privacy. Follow related chips, correct a summary, forget a node (with undo), filter categories |
+| **Settings** | Simulate offline (chat sends queue, then reconcile on reconnect), hide personal map nodes, lock now, reset demo state, demo revoke/erase |
 
-## Security posture
+Escape closes sheets and the inspector. All demo changes reset on reload.
 
-- Direct TLS connection to Ren's gateway, preferably over Tailscale or another private route
-- High-privilege credential stored only in iOS Keychain and gated with LocalAuthentication
-- No vendor relay or analytics by default
-- Redacted notifications and diagnostics
-- Explicit approval for consequential actions
-- Easy token replacement, revocation, lock, and local-data erase
+## Posture
 
-The artifact contains no credentials and does not connect to a live gateway.
+- Direct TLS to the owner's gateway over a private network (Tailscale or similar); never public
+- Gateway key in a device-only Keychain item behind Face ID; dedicated mobile profile and key
+- No vendor relay, analytics, or content in notifications
+- Approvals need an explicit decision; offline or timeout never approves
+- Briefings are read-only; shopping never purchases; memory deletion is verified, not cosmetic
 
-## Important contract note
+## API contract note
 
-No Hermes endpoint or event schema is assumed. The PRD requires a discovery spike and places all verified gateway behavior behind a `HermesClient` adapter protocol. The visual prototype uses local fixture data only.
+The PRD uses only endpoints documented on the Hermes Agent [API Server](https://hermes-agent.nousresearch.com/docs/user-guide/features/api-server) page (read 2026-10-31): health, capabilities, chat completions, responses, runs with SSE events and approvals, sessions, jobs. It lists what is **not** documented: memory/graph, briefings, learning records, shopping data, structured UI blocks, file upload. Those surfaces need discovery and an adapter mapping before implementation. The structured `hermes-block` format is a proposal, not a Hermes feature.
 
-## Tooling recorded for the later native build
+## Known limitations of this artifact
 
-- Xcode 26.4.1
-- Swift 6.3.1
-- iOS 26.4 simulator runtime
-- Claude Code 2.1.314 authenticated through Claude Max
+- No real Face ID, microphone, gateway, model, merchant, or memory store
+- Audio uses the browser's speech synthesis when present; quality and voice availability vary
+- Flags are simplified geometric drawings, not official artwork; product images are illustrations of fictional products
+- The map is a fixed demo layout, not a force-directed layout of real memory
+- Demo revoke/erase use browser `confirm()` dialogs
 
-## Visual direction
+## Local tooling (checked 2026-10-31)
 
-Command/inspect surface with graphite and near-black materials, restrained warm amber, compact state language, and high information clarity. It deliberately avoids gradients, glassmorphism, fake metrics, and generic SaaS feature tiles.
+Xcode 26.4.1 (17E202), Apple Swift 6.3.1, iOS 26.4 simulator runtime.

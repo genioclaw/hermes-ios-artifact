@@ -1,573 +1,1105 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#10100f">
-  <meta name="description" content="Product requirements and interactive concept for a private native SwiftUI iPhone client for Hermes Agent.">
-  <title>Hermes for iPhone — product artifact</title>
-  <style>
-    :root {
-      --bg: #0d0d0c;
-      --surface: #151513;
-      --surface-2: #1c1b18;
-      --surface-3: #24221e;
-      --line: #34312b;
-      --line-strong: #4a4439;
-      --text: #f3efe6;
-      --muted: #aaa397;
-      --quiet: #7e786e;
-      --accent: #d8a651;
-      --accent-ink: #211a0d;
-      --good: #80b58b;
-      --danger: #dc786e;
-      --info: #86aebd;
-      --paper: #f0ece3;
-      --paper-ink: #292823;
-      --paper-muted: #6d685e;
-      --paper-line: #d7d0c4;
-      --radius: 14px;
-      --shadow: 0 24px 80px rgba(0,0,0,.42);
-      --font-ui: ui-rounded, "SF Pro Rounded", "Avenir Next", "Segoe UI", sans-serif;
-      --font-body: ui-serif, "New York", "Iowan Old Style", Charter, Georgia, serif;
-      --font-mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-ui);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-    button, input { font: inherit; }
-    button { color: inherit; }
-    a { color: inherit; }
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-    .skip { position: fixed; left: 12px; top: -80px; z-index: 100; background: var(--accent); color: var(--accent-ink); padding: 10px 14px; border-radius: 8px; }
-    .skip:focus { top: 12px; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0d0d0c">
+<meta name="description" content="Public, sanitized product artifact and interactive prototype for a private native Hermes iPhone client. All data is demo fixture data.">
+<title>Hermes for iPhone · public product artifact</title>
+<style>
+:root{
+  --bg:#0d0d0c;--s1:#151513;--s2:#1c1b18;--s3:#24221e;--line:#34312b;--line2:#4a4439;
+  --text:#f3efe6;--muted:#aaa397;--dim:#8a8479;--accent:#d8a651;--accent-ink:#211a0d;--accent-dim:#6e552a;
+  --good:#86bb90;--danger:#e0857a;--info:#8db4c2;
+  --paper:#f0ece3;--paper-ink:#292823;--paper-muted:#5f5a51;--paper-line:#d7d0c4;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
+  --serif:"New York","Iowan Old Style",Charter,Georgia,serif;
+  --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:12px;top:-80px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:12px 14px;border-radius:10px}
+.skip:focus{top:12px}
 
-    .topbar {
-      position: sticky; top: 0; z-index: 40;
-      display: flex; align-items: center; justify-content: space-between;
-      min-height: 64px; padding: 0 clamp(18px, 4vw, 56px);
-      border-bottom: 1px solid var(--line);
-      background: rgba(13,13,12,.94);
-    }
-    .brand { display: flex; align-items: center; gap: 11px; font-weight: 720; letter-spacing: -.02em; }
-    .brand-mark { width: 12px; height: 12px; border: 2px solid var(--accent); transform: rotate(45deg); }
-    .topnav { display: flex; align-items: center; gap: 6px; }
-    .topnav a { text-decoration: none; color: var(--muted); padding: 10px 12px; border-radius: 8px; font-size: 14px; }
-    .topnav a:hover { color: var(--text); background: var(--surface-2); }
-    .status-pill { display: inline-flex; align-items: center; gap: 7px; color: var(--good); border: 1px solid #35533b; background: #142219; padding: 7px 10px; border-radius: 999px; font: 12px var(--font-mono); }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+/* page chrome */
+.top{position:sticky;top:0;z-index:40;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 clamp(16px,4vw,56px);border-bottom:1px solid var(--line);background:rgba(13,13,12,.96)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.mark{width:12px;height:12px;border:2px solid var(--accent);transform:rotate(45deg)}
+.top nav{display:flex;align-items:center;gap:2px}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;color:var(--muted);text-decoration:none;font-size:13px}
+.top nav a:hover{color:var(--text)}
+.pill{font:11px var(--mono);color:var(--good);border:1px solid #35523a;border-radius:999px;padding:7px 10px;white-space:nowrap}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:6vw;align-items:end;padding:clamp(56px,9vw,120px) clamp(20px,6vw,92px) 64px;border-bottom:1px solid var(--line)}
+.kicker{color:var(--accent);font:11px var(--mono);text-transform:uppercase;letter-spacing:.12em}
+.hero h1{font:600 clamp(46px,7.5vw,100px)/.94 var(--serif);letter-spacing:-.05em;margin:14px 0 22px}
+.hero p{color:var(--muted);font-size:clamp(17px,1.8vw,22px);max-width:720px;margin:0}
+.facts{border-top:1px solid var(--line)}
+.fact{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.fact b{color:var(--dim);font:10px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
 
-    .intro {
-      display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
-      gap: clamp(32px, 6vw, 90px); align-items: end;
-      min-height: 620px; padding: clamp(64px, 9vw, 130px) clamp(20px, 6vw, 96px) 76px;
-      border-bottom: 1px solid var(--line);
-    }
-    .eyebrow { color: var(--accent); font: 12px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
-    h1 { margin: 16px 0 24px; max-width: 880px; font: 600 clamp(52px, 8vw, 112px)/.94 var(--font-body); letter-spacing: -.065em; text-wrap: balance; }
-    .intro-copy { max-width: 680px; color: var(--muted); font-size: clamp(18px, 2vw, 24px); line-height: 1.52; text-wrap: pretty; }
-    .intro-meta { align-self: stretch; display: flex; flex-direction: column; justify-content: flex-end; border-top: 1px solid var(--line-strong); }
-    .meta-row { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 17px 0; border-bottom: 1px solid var(--line); }
-    .meta-label { color: var(--quiet); font: 11px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
-    .meta-value { font-size: 15px; color: var(--text); }
+.artifact{scroll-margin-top:60px;display:grid;grid-template-columns:340px minmax(0,1fr);border-bottom:1px solid var(--line)}
+.rail{padding:56px 26px 56px clamp(20px,5vw,60px);border-right:1px solid var(--line)}
+.rail h2{font:600 clamp(32px,3.6vw,52px)/1.02 var(--serif);letter-spacing:-.04em;margin:12px 0 16px}
+.rail>p{color:var(--muted);font-size:15px}
+.tabs{margin-top:26px;border-top:1px solid var(--line)}
+.tab{width:100%;min-height:48px;display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:8px;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0}
+.tab small{color:var(--dim);font:10px var(--mono)}
+.tab span{font-weight:650}
+.tab em{font-style:normal;color:var(--dim);font-size:12px}
+.tab:hover,.tab[aria-current="true"]{color:var(--accent)}
+.fixture-note{margin-top:24px;padding:14px;border:1px dashed var(--line2);border-radius:12px;color:var(--muted);font-size:12.5px}
+.fixture-note strong{color:var(--accent)}
 
-    .prototype-section { display: grid; grid-template-columns: minmax(310px, 440px) minmax(500px, 1fr); min-height: 930px; border-bottom: 1px solid var(--line); }
-    .prototype-copy { padding: 78px clamp(24px, 5vw, 72px); border-right: 1px solid var(--line); }
-    .section-kicker { color: var(--accent); font: 11px var(--font-mono); text-transform: uppercase; letter-spacing: .14em; }
-    h2 { margin: 14px 0 18px; font: 600 clamp(34px, 4.4vw, 62px)/1.02 var(--font-body); letter-spacing: -.045em; }
-    .section-lede { color: var(--muted); font-size: 18px; max-width: 560px; }
-    .flow-list { margin-top: 48px; display: grid; gap: 0; border-top: 1px solid var(--line); }
-    .flow-btn { width: 100%; min-height: 64px; display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 10px; padding: 10px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
-    .flow-btn:hover .flow-name, .flow-btn.active .flow-name { color: var(--accent); }
-    .flow-num { color: var(--quiet); font: 11px var(--font-mono); }
-    .flow-name { font-weight: 650; }
-    .flow-detail { color: var(--quiet); font-size: 12px; }
-    .flow-arrow { color: var(--quiet); font-size: 20px; }
-    .flow-btn.active .flow-arrow { color: var(--accent); }
-    .prototype-note { margin-top: 34px; color: var(--quiet); font-size: 13px; }
+.stage{scroll-margin-top:60px;display:grid;place-items:center;padding:40px 20px;background-image:linear-gradient(#171715 1px,transparent 1px),linear-gradient(90deg,#171715 1px,transparent 1px);background-size:32px 32px}
+.phone{width:min(400px,100%);height:min(840px,calc(100vh - 130px));min-height:680px;padding:8px;border:1px solid #4c4b44;border-radius:54px;background:#050505;box-shadow:0 30px 90px #000}
+.screen{position:relative;height:100%;overflow:hidden;border-radius:46px;background:#111110;display:flex;flex-direction:column}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:108px;height:30px;border-radius:20px;background:#000;z-index:30}
+.status{flex:0 0 46px;display:flex;align-items:center;justify-content:space-between;padding:10px 28px 0;font-size:12px;font-weight:700}
+.status .net{font:10px var(--mono);color:var(--good)}
+.status .net.off{color:var(--danger)}
 
-    .phone-stage { position: relative; min-width: 0; display: grid; place-items: center; padding: 62px 32px; overflow: hidden; background-color: #11110f; background-image: linear-gradient(#1a1916 1px, transparent 1px), linear-gradient(90deg, #1a1916 1px, transparent 1px); background-size: 32px 32px; }
-    .phone {
-      position: relative; width: min(390px, 94vw); aspect-ratio: 390/844; padding: 8px;
-      border: 1px solid #4a4741; border-radius: 54px; background: #080808; box-shadow: var(--shadow), inset 0 0 0 2px #20201e;
-    }
-    .phone::before { content: ""; position: absolute; z-index: 20; width: 112px; height: 31px; border-radius: 20px; left: 50%; top: 17px; transform: translateX(-50%); background: #050505; }
-    .phone-screen { position: relative; height: 100%; overflow: hidden; border-radius: 46px; background: #11110f; }
-    .screen { position: absolute; inset: 0; display: none; flex-direction: column; background: #11110f; }
-    .screen.active { display: flex; }
-    .ios-status { height: 48px; flex: 0 0 48px; display: flex; align-items: center; justify-content: space-between; padding: 12px 25px 0; font-size: 12px; font-weight: 700; }
-    .signal { color: var(--muted); font-size: 10px; letter-spacing: .12em; }
-    .home-indicator { position: absolute; bottom: 7px; left: 50%; width: 128px; height: 5px; transform: translateX(-50%); background: rgba(255,255,255,.72); border-radius: 4px; z-index: 15; }
-    .app-header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 4px 18px 10px; border-bottom: 1px solid #27251f; }
-    .app-title { font: 600 25px/1 var(--font-body); letter-spacing: -.03em; }
-    .header-button, .icon-button { min-width: 44px; min-height: 44px; display: grid; place-items: center; border: 0; border-radius: 12px; background: transparent; cursor: pointer; }
-    .header-button:hover, .icon-button:hover { background: var(--surface-2); }
-    .mini-label { color: var(--quiet); font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
+/* app views */
+.view{display:none;flex:1;min-height:0;flex-direction:column}
+.view.active{display:flex}
+.apphead{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 14px 10px 18px;border-bottom:1px solid #26251f}
+.apphead h3{font:600 24px/1.1 var(--serif);margin:2px 0 0;letter-spacing:-.01em}
+.demo{font:9.5px var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.07em}
+.icon{min-width:44px;min-height:44px;border:0;border-radius:12px;background:transparent;font-size:18px;display:inline-grid;place-items:center}
+.icon:hover{background:var(--s2)}
+.scroll{flex:1;min-height:0;overflow:auto;padding:12px 12px 24px;overscroll-behavior:contain}
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:14px 4px 8px}
+.sec h4{margin:0;font-size:14px}
+.sec span{color:var(--dim);font-size:11px}
+.card{background:var(--s1);border:1px solid #2f2d28;border-radius:14px;padding:13px;margin-bottom:9px}
+.card h5{font-size:15px;margin:4px 0 5px}
+.card p{color:var(--muted);font-size:12.5px;margin:0}
+.label{color:var(--dim);font:9.5px var(--mono);text-transform:uppercase;letter-spacing:.07em}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.badge{font:9.5px var(--mono);border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:var(--muted);white-space:nowrap}
+.badge.ro{color:var(--info);border-color:#38515a}
+.badge.ap{color:var(--accent);border-color:#68532d}
+.badge.warn{color:var(--danger);border-color:#6a3a33}
+.btn{min-height:44px;border:0;border-radius:12px;padding:0 14px;background:var(--accent);color:var(--accent-ink);font-weight:700}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);font-weight:600}
+.btn.danger{background:transparent;color:var(--danger);border:1px solid #6a3a33;font-weight:600}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btnrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.btnrow .btn{flex:1 1 auto}
+.link{min-height:44px;min-width:44px;border:0;background:transparent;color:var(--accent);padding:0 2px;font-size:12.5px;font-weight:600;text-align:left}
+.route{display:block;color:var(--dim);font:9.5px var(--mono);margin-top:2px}
+.cite{display:block;color:var(--info);font:9.5px var(--mono);margin-top:8px}
+.tabbar{flex:0 0 auto;display:grid;grid-template-columns:repeat(5,1fr);padding:4px 6px 20px;border-top:1px solid #2b2a24;background:#111110}
+.tabbtn{min-height:50px;border:0;background:transparent;color:var(--dim);font-size:10px;display:grid;justify-items:center;align-content:center;gap:1px}
+.tabbtn b{font-size:18px;line-height:22px;font-weight:500}
+.tabbtn[aria-current="page"]{color:var(--accent)}
+.banner{display:none;margin:0 12px 6px;padding:8px 12px;border-radius:10px;font-size:11.5px;background:#2b1d1a;color:#f0c2ba;border:1px solid #6a3a33}
+.banner.show{display:block}
+.banner.good{background:#18241a;color:#c3e2c8;border-color:#35523a}
+.toast{position:absolute;left:14px;right:14px;bottom:92px;z-index:25;padding:11px 13px;border-radius:12px;background:#2a2822;border:1px solid var(--line2);font-size:12px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.18s}
+.toast.show{opacity:1;transform:none}
 
-    .lock-screen { justify-content: space-between; padding-bottom: 30px; background: #0d0d0c; }
-    .lock-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; }
-    .lock-glyph { width: 68px; height: 68px; display: grid; place-items: center; margin-bottom: 28px; border: 1px solid var(--line-strong); transform: rotate(45deg); }
-    .lock-glyph span { transform: rotate(-45deg); color: var(--accent); font: 24px var(--font-body); }
-    .lock-content h3 { margin: 0; font: 600 35px/1.1 var(--font-body); letter-spacing: -.04em; }
-    .lock-content p { margin: 14px 0 0; color: var(--muted); font-size: 14px; max-width: 250px; }
-    .primary { min-height: 50px; border: 0; border-radius: 13px; background: var(--accent); color: var(--accent-ink); font-weight: 750; cursor: pointer; padding: 0 18px; }
-    .primary:hover { background: #e6b963; }
-    .primary.block { width: calc(100% - 36px); margin: 0 18px 22px; }
-    .quiet-action { min-height: 44px; border: 0; color: var(--muted); background: transparent; cursor: pointer; }
-    .private-route { display: flex; align-items: center; gap: 7px; color: var(--good); font: 11px var(--font-mono); margin-top: 20px; }
+/* lock */
+.lock{position:absolute;inset:0;z-index:20;background:#0f0f0e;display:none;flex-direction:column;padding:96px 26px 40px;text-align:center}
+.lock.show{display:flex}
+.lock .glyph{width:76px;height:76px;margin:0 auto 22px;border:2px solid var(--accent);border-radius:22px;display:grid;place-items:center;font:600 34px var(--serif);color:var(--accent)}
+.lock h3{font:600 26px var(--serif);margin:0 0 8px}
+.lock p{color:var(--muted);font-size:13px;margin:0 0 6px}
+.lock .spacer{flex:1}
 
-    .session-toolbar { display: flex; gap: 8px; padding: 12px 16px; }
-    .search { flex: 1; min-width: 0; height: 42px; border: 1px solid #302e28; border-radius: 11px; background: #1a1916; color: var(--text); padding: 0 13px; }
-    .search::placeholder { color: var(--quiet); }
-    .session-list { overflow: auto; padding: 0 10px 90px; }
-    .session-group { padding: 13px 8px 7px; color: var(--quiet); font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: .1em; }
-    .session-row { width: 100%; min-height: 76px; display: grid; grid-template-columns: 11px 1fr auto; align-items: center; gap: 12px; padding: 12px 10px; border: 0; border-bottom: 1px solid #27251f; background: transparent; text-align: left; cursor: pointer; }
-    .session-row:hover { background: #171714; border-radius: 10px; }
-    .session-state { width: 7px; height: 7px; border-radius: 50%; background: var(--quiet); }
-    .session-state.live { background: var(--good); box-shadow: 0 0 0 4px rgba(128,181,139,.1); }
-    .session-state.attention { background: var(--accent); box-shadow: 0 0 0 4px rgba(216,166,81,.1); }
-    .session-name { font-size: 15px; font-weight: 680; }
-    .session-preview { margin-top: 4px; color: var(--quiet); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 230px; }
-    .session-time { color: var(--quiet); font: 10px var(--font-mono); }
-    .fab { position: absolute; right: 18px; bottom: 28px; width: 54px; height: 54px; border: 0; border-radius: 18px; background: var(--accent); color: var(--accent-ink); font-size: 28px; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+/* today */
+.rem{display:flex;align-items:center;gap:10px;min-height:48px;border-top:1px solid #2a2924;padding:2px 0}
+.rem:first-of-type{border-top:0}
+.check{flex:0 0 44px;height:44px;border:0;background:transparent;display:grid;place-items:center}
+.check i{width:22px;height:22px;border:1.5px solid var(--line2);border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px}
+.rem.done .check i{background:var(--good);border-color:var(--good);color:#0f1a10}
+.rem.done .rtxt{color:var(--dim);text-decoration:line-through}
+.rtxt{flex:1;font-size:13px}
+.rtxt small{display:block;color:var(--dim);font-size:11px;text-decoration:none}
+.brief-list{display:none;margin:10px 0 0;padding:0;list-style:none;border-top:1px solid #2a2924}
+.brief-list.open{display:block}
+.brief-list li{padding:8px 0;border-bottom:1px solid #2a2924;font-size:12px;color:var(--muted)}
+.brief-list li b{color:var(--text);font-weight:600}
+.cardgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cardgrid .card{margin:0}
 
-    .chat-header { min-height: 60px; display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; padding: 3px 10px 8px; border-bottom: 1px solid #27251f; }
-    .chat-heading { text-align: center; min-width: 0; }
-    .chat-title { font-size: 14px; font-weight: 720; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .chat-state { margin-top: 2px; color: var(--good); font: 9px var(--font-mono); text-transform: uppercase; letter-spacing: .07em; }
-    .transcript { flex: 1; overflow: auto; padding: 16px 15px 146px; }
-    .message { margin-bottom: 18px; }
-    .message-meta { margin-bottom: 6px; color: var(--quiet); font: 9px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
-    .message p { margin: 0; font-size: 14px; line-height: 1.52; }
-    .message.user { margin-left: 54px; padding: 11px 13px; border-radius: 16px 16px 4px 16px; background: #27241d; }
-    .message.user .message-meta { display: none; }
-    .code { margin: 10px 0 0; padding: 11px; overflow: auto; border: 1px solid #312f29; border-radius: 10px; background: #0b0b0a; color: #d8d2c7; font: 10px/1.55 var(--font-mono); }
-    .tool-card { margin: 14px 0 18px; border: 1px solid #353229; border-radius: 12px; background: #171613; overflow: hidden; }
-    .tool-toggle { width: 100%; min-height: 52px; display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 8px; border: 0; background: transparent; padding: 8px 11px; text-align: left; cursor: pointer; }
-    .tool-icon { color: var(--accent); font: 14px var(--font-mono); }
-    .tool-name { font-size: 12px; font-weight: 680; }
-    .tool-status { color: var(--good); font: 9px var(--font-mono); text-transform: uppercase; }
-    .tool-detail { display: none; padding: 0 12px 12px 43px; color: var(--muted); font-size: 11px; line-height: 1.5; }
-    .tool-card.open .tool-detail { display: block; }
-    .stream-caret { display: inline-block; width: 7px; height: 14px; margin-left: 2px; vertical-align: -2px; background: var(--accent); animation: blink 1s steps(1) infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
-    .approval-alert { width: 100%; min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid #5a4930; border-radius: 12px; color: var(--text); background: #211c13; text-align: left; cursor: pointer; }
-    .approval-alert strong { display: block; font-size: 12px; }
-    .approval-alert span { color: var(--muted); font-size: 10px; }
-    .composer-shell { position: absolute; left: 10px; right: 10px; bottom: 16px; padding: 8px; border: 1px solid #343129; border-radius: 19px; background: #1a1916; box-shadow: 0 -12px 30px #11110f; }
-    .composer { display: grid; grid-template-columns: 42px 1fr 42px; align-items: end; gap: 4px; }
-    .composer textarea { min-height: 42px; max-height: 90px; resize: none; border: 0; outline: 0; background: transparent; color: var(--text); padding: 11px 5px; font: 14px var(--font-ui); }
-    .send { width: 42px; height: 42px; border: 0; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 900; cursor: pointer; }
-    .attach-panel { display: none; grid-template-columns: repeat(3,1fr); gap: 6px; padding: 4px 2px 9px; }
-    .composer-shell.attach-open .attach-panel { display: grid; }
-    .attach-choice { min-height: 60px; border: 1px solid #343129; border-radius: 11px; background: #201e1a; color: var(--muted); cursor: pointer; font-size: 11px; }
-    .voice-bar { display: none; align-items: center; gap: 9px; min-height: 58px; padding: 5px; }
-    .composer-shell.voice-open .voice-bar { display: flex; }
-    .composer-shell.voice-open .composer, .composer-shell.voice-open .attach-panel { display: none; }
-    .record-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--danger); animation: pulse 1.4s ease-in-out infinite; }
-    @keyframes pulse { 50% { opacity: .35; transform: scale(.75); } }
-    .wave { flex: 1; height: 20px; background: repeating-linear-gradient(90deg, var(--accent) 0 2px, transparent 2px 6px); mask-image: linear-gradient(transparent 18%, #000 19% 81%, transparent 82%); opacity: .7; }
+/* chat */
+.transcript{flex:1;min-height:0;overflow:auto;padding:12px 12px 8px;display:flex;flex-direction:column;gap:9px}
+.msg{max-width:86%;padding:10px 12px;border-radius:16px;background:var(--s2);font-size:13px}
+.msg.me{align-self:flex-end;background:#3a301e;border-bottom-right-radius:5px}
+.msg.hermes{border-bottom-left-radius:5px}
+.msg .meta{color:var(--dim);font:9.5px var(--mono);margin-bottom:3px}
+.msg .dstate{display:block;text-align:right;color:var(--dim);font:9.5px var(--mono);margin-top:4px}
+.msg .dstate.q{color:var(--danger)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;border:1px solid var(--line2);border-radius:999px;padding:0 4px 0 10px;min-height:32px;background:var(--s1)}
+.chip button{min-width:32px;min-height:32px;border:0;background:transparent;color:var(--muted)}
+.tool{border:1px solid #2f2d28;border-radius:12px;background:#141412;align-self:stretch}
+.tool>button{width:100%;min-height:48px;display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:8px;padding:6px 12px;border:0;background:transparent;text-align:left;font-size:12.5px}
+.tool .det{display:none;padding:0 12px 10px 44px;color:var(--muted);font-size:11.5px}
+.tool.open .det{display:block}
+.block{align-self:stretch;border:1px solid #4b3f28;border-radius:14px;background:#1a1712;padding:12px}
+.block .fb{display:none;font:11.5px/1.5 var(--mono);color:var(--muted);white-space:pre-wrap;margin-top:8px;padding:10px;background:#11100e;border-radius:8px}
+.block.showfb .fb{display:block}
+.alert{align-self:stretch;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #6b5530;border-radius:14px;background:#231d12;padding:8px 13px;text-align:left;font-size:12.5px}
+.alert strong{display:block;color:var(--accent)}
+.alert.done{border-color:#35523a;background:#151f17}
+.alert.done strong{color:var(--good)}
+.composer{flex:0 0 auto;padding:8px 10px 10px;border-top:1px solid #2b2a24;background:#121211}
+.attach-panel,.voice-bar{display:none;gap:6px;margin-bottom:8px}
+.attach-panel.open,.voice-bar.open{display:flex}
+.attach-panel button{flex:1;min-height:44px;border:1px solid var(--line2);border-radius:12px;background:var(--s1);font-size:12px}
+.voice-bar{align-items:center;padding:0 4px 0 12px;border:1px solid #6a3a33;border-radius:12px;background:#1e1513;font-size:12px}
+.voice-bar .dot{width:9px;height:9px;border-radius:50%;background:var(--danger)}
+.voice-bar span.t{flex:1;font-family:var(--mono)}
+.inputrow{display:flex;align-items:flex-end;gap:6px}
+.inputrow textarea{flex:1;min-height:44px;max-height:110px;resize:none;border:1px solid var(--line2);border-radius:14px;background:#0d0d0c;padding:11px 12px;font-size:13.5px}
+.send{min-width:44px;min-height:44px;border:0;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:18px}
+.pending-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.sheet-bg{position:absolute;inset:0;z-index:22;background:rgba(0,0,0,.55);display:none;align-items:flex-end}
+.sheet-bg.open{display:flex}
+.sheet{width:100%;max-height:88%;overflow:auto;background:#1f1e1a;border-top:1px solid var(--line2);border-radius:24px 24px 0 0;padding:10px 18px 26px}
+.handle{width:38px;height:5px;border-radius:4px;background:#55534b;margin:0 auto 12px}
+.sheet h4{font:600 22px var(--serif);margin:4px 0 6px}
+.sheet p{color:var(--muted);font-size:12.5px;margin:0}
+dl.facts2{display:grid;grid-template-columns:92px 1fr;gap:6px 10px;margin:12px 0;font-size:12px;border-top:1px solid var(--line);padding-top:10px}
+dl.facts2 dt{color:var(--dim)}
+dl.facts2 dd{margin:0}
 
-    .sheet-backdrop { position: absolute; inset: 0; z-index: 30; display: none; align-items: flex-end; background: rgba(0,0,0,.56); }
-    .sheet-backdrop.open { display: flex; }
-    .approval-sheet { width: 100%; padding: 10px 18px 26px; border-radius: 25px 25px 0 0; background: #1a1916; box-shadow: 0 -20px 60px rgba(0,0,0,.5); }
-    .sheet-handle { width: 38px; height: 5px; margin: 0 auto 16px; border-radius: 5px; background: #4c4840; }
-    .approval-sheet h3 { margin: 0 0 6px; font: 600 25px var(--font-body); }
-    .approval-sheet > p { margin: 0 0 16px; color: var(--muted); font-size: 12px; }
-    .approval-facts { border-top: 1px solid #343129; }
-    .fact { display: grid; grid-template-columns: 82px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #343129; font-size: 11px; }
-    .fact dt { color: var(--quiet); }
-    .fact dd { margin: 0; color: var(--text); overflow-wrap: anywhere; }
-    .risk { color: var(--danger); }
-    .sheet-actions { display: grid; grid-template-columns: 1fr 1.35fr; gap: 8px; margin-top: 17px; }
-    .deny { min-height: 49px; border: 1px solid #48443b; border-radius: 12px; background: transparent; cursor: pointer; }
+/* learn */
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;margin:10px 12px 0;background:var(--s1);border:1px solid var(--line);border-radius:12px}
+.seg button{min-height:44px;border:0;border-radius:9px;background:transparent;font-size:12.5px;color:var(--muted)}
+.seg button[aria-selected="true"]{background:var(--s3);color:var(--text);font-weight:650}
+.pane{display:none}
+.pane.active{display:block}
+.word{font:600 32px/1.1 var(--serif);margin:8px 0 2px}
+.gloss{color:var(--accent);font-size:13.5px}
+.ex{font:15px/1.4 var(--serif);margin:12px 0 2px}
+.ex-tr{color:var(--muted);font-size:12px}
+.rates{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.rate{min-height:56px;border:1px solid var(--line2);border-radius:12px;background:var(--s2);font-size:12px;display:grid;align-content:center;gap:1px}
+.rate b{font:700 16px var(--mono);color:var(--accent)}
+.rate:hover{border-color:var(--accent)}
+.tally{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.hanzi{font:600 64px/1.1 "PingFang SC","Hiragino Sans GB","Noto Sans CJK SC",serif;text-align:center;margin:10px 0}
+.reveal{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+.reveal.open{display:block}
+.flagbox{display:grid;place-items:center;padding:14px;margin:8px 0;background:#1d1c19;border-radius:12px}
+.flagbox svg{width:180px;height:120px;border-radius:4px;box-shadow:0 0 0 1px #3a3830}
+.field{width:100%;min-height:44px;border:1px solid var(--line2);border-radius:12px;background:#0d0d0c;padding:0 12px;font-size:14px}
+.verdict{font-weight:700;margin-bottom:6px}
+.verdict.ok{color:var(--good)}
+.verdict.no{color:var(--danger)}
 
-    .settings-scroll { overflow: auto; padding: 8px 16px 65px; }
-    .settings-section { margin-top: 18px; }
-    .settings-section > h3 { margin: 0 0 7px 4px; color: var(--quiet); font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
-    .settings-group { border: 1px solid #302e28; border-radius: 13px; overflow: hidden; background: #181714; }
-    .setting-row { min-height: 57px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid #302e28; }
-    .setting-row:last-child { border-bottom: 0; }
-    .setting-name { font-size: 13px; font-weight: 650; }
-    .setting-note { color: var(--quiet); font-size: 10px; margin-top: 2px; }
-    .setting-value { color: var(--muted); font-size: 11px; text-align: right; max-width: 155px; overflow: hidden; text-overflow: ellipsis; }
-    .toggle { width: 44px; height: 26px; padding: 2px; border: 0; border-radius: 20px; background: #3a3934; cursor: pointer; }
-    .toggle::after { content: ""; display: block; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .18s ease; }
-    .toggle.on { background: var(--good); }
-    .toggle.on::after { transform: translateX(18px); }
-    .danger-row { color: var(--danger); }
+/* shop */
+.toolbar{display:flex;gap:6px;align-items:center;padding:10px 12px 0}
+.toolbar .btn{flex:1;font-size:12px;padding:0 10px}
+.prod{display:grid;grid-template-columns:104px 1fr;gap:11px}
+.prod svg{width:104px;height:104px;border-radius:10px;background:#1d1c19}
+.prod.elim{opacity:.55}
+.price{color:var(--accent);font-weight:750;font-size:15px}
+.specs{margin:5px 0 0;padding:0;list-style:none;font-size:11.5px;color:var(--muted)}
+.unv{color:var(--danger);font:9.5px var(--mono);text-transform:uppercase}
+.pacts{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.pacts button{min-height:44px;border:1px solid var(--line2);border-radius:10px;background:transparent;font-size:11.5px}
+.pacts button[aria-pressed="true"]{color:var(--accent);border-color:var(--accent-dim);background:#211b10}
+.cmp{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:10px}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:7px 5px;text-align:left;vertical-align:top}
+.cmp th{color:var(--dim);font-weight:500;font:9.5px var(--mono);text-transform:uppercase}
 
-    .doc-shell { background: var(--paper); color: var(--paper-ink); }
-    .doc-layout { display: grid; grid-template-columns: 270px minmax(0, 820px) minmax(220px, 1fr); max-width: 1500px; margin: 0 auto; }
-    .doc-nav { position: sticky; top: 64px; align-self: start; height: calc(100vh - 64px); overflow: auto; padding: 54px 30px; border-right: 1px solid var(--paper-line); }
-    .doc-nav .section-kicker { color: #82652e; }
-    .doc-nav h3 { margin: 10px 0 26px; font: 600 26px var(--font-body); }
-    .doc-nav a { display: block; padding: 8px 0; color: var(--paper-muted); text-decoration: none; font-size: 13px; }
-    .doc-nav a:hover { color: var(--paper-ink); }
-    .doc-main { min-width: 0; padding: 80px clamp(28px, 5vw, 84px) 120px; }
-    .doc-main section { scroll-margin-top: 90px; padding: 0 0 70px; margin-bottom: 70px; border-bottom: 1px solid var(--paper-line); }
-    .doc-main section:last-child { border-bottom: 0; }
-    .doc-main h2 { max-width: 650px; margin-top: 0; }
-    .doc-main h3 { margin: 38px 0 12px; font: 650 19px var(--font-ui); letter-spacing: -.015em; }
-    .doc-main p, .doc-main li { font-family: var(--font-body); font-size: 17px; line-height: 1.68; }
-    .doc-main p { max-width: 690px; }
-    .doc-main ul, .doc-main ol { padding-left: 22px; max-width: 700px; }
-    .doc-main li { padding: 4px 0; }
-    .doc-main code { font: 13px var(--font-mono); background: #dfd9ce; padding: 2px 5px; border-radius: 4px; }
-    .doc-main pre { max-width: 100%; overflow: auto; margin: 24px 0; padding: 20px; border: 1px solid #cfc6b7; border-radius: 9px; background: #25241f; color: #eee8dd; font: 12px/1.65 var(--font-mono); }
-    .scope-table { width: 100%; margin-top: 24px; border-collapse: collapse; font-family: var(--font-ui); font-size: 13px; }
-    .scope-table th, .scope-table td { padding: 13px 10px; border-bottom: 1px solid var(--paper-line); text-align: left; vertical-align: top; }
-    .scope-table th { color: var(--paper-muted); font: 10px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
-    .callout { margin: 26px 0; padding: 18px 20px; border: 1px solid #c8b98f; background: #ebe3cf; border-radius: 8px; font-family: var(--font-ui) !important; font-size: 14px !important; line-height: 1.55 !important; }
-    .doc-aside { padding: 80px 26px; }
-    .aside-card { position: sticky; top: 96px; border-top: 2px solid #a27c35; padding-top: 16px; }
-    .aside-card h3 { margin: 0 0 10px; font-size: 14px; }
-    .aside-card p { color: var(--paper-muted); font-size: 12px; line-height: 1.55; }
-    .aside-card a { display: inline-block; margin-top: 12px; color: #76571f; font: 11px var(--font-mono); }
-    .criteria { counter-reset: criterion; list-style: none; padding: 0 !important; }
-    .criteria li { position: relative; padding: 12px 0 12px 42px; border-bottom: 1px solid var(--paper-line); }
-    .criteria li::before { counter-increment: criterion; content: counter(criterion, decimal-leading-zero); position: absolute; left: 0; top: 17px; color: #85672f; font: 10px var(--font-mono); }
+/* map */
+.mapwrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#0c0c0b;touch-action:none;cursor:grab}
+.mapwrap.dragging{cursor:grabbing}
+.graph{position:absolute;inset:0}
+.graph svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.graph line{stroke:#47443b;stroke-width:1.4}
+.graph line.hi{stroke:var(--accent);stroke-width:2}
+.node{position:absolute;transform:translate(-50%,-50%);min-height:44px;min-width:44px;padding:0 14px;border:1px solid #4d4a40;border-radius:999px;background:#1a1916;font-size:12px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.node i{width:8px;height:8px;border-radius:50%;flex:0 0 8px}
+.node.core{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:800}
+.node[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px #d8a65133}
+.node.corrected::after{content:"✎";font-size:10px;color:var(--accent)}
+.node.core.corrected::after{color:var(--accent-ink)}
+.chipsbar{position:absolute;left:10px;right:60px;top:10px;display:flex;gap:5px;overflow:auto;z-index:3}
+.fchip{min-height:44px;border:1px solid var(--line);border-radius:999px;background:#161614;padding:0 11px;font-size:11px;white-space:nowrap}
+.fchip[aria-pressed="true"]{border-color:var(--accent-dim);color:var(--accent)}
+.maptools{position:absolute;right:10px;top:10px;display:grid;gap:6px;z-index:3}
+.maptools button{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:#1a1916;font-size:17px}
+.maphint{position:absolute;left:12px;bottom:10px;z-index:3;color:var(--dim);font:9.5px var(--mono)}
+.inspector{position:absolute;left:0;right:0;bottom:0;z-index:6;max-height:74%;overflow:auto;padding:10px 18px 20px;border-radius:22px 22px 0 0;background:#1f1e1a;border-top:1px solid var(--line2);transform:translateY(105%);transition:transform .2s;touch-action:pan-y}
+.inspector.open{transform:none}
+.inspector h4{font:600 22px var(--serif);margin:2px 0 4px}
+.inspector textarea{width:100%;min-height:80px;margin-top:8px;border:1px solid var(--line2);border-radius:10px;background:#0d0d0c;padding:10px;font-size:13px}
+.conf{display:inline-block;width:70px;height:6px;border-radius:3px;background:#34312b;vertical-align:middle;margin-right:6px;overflow:hidden}
+.conf i{display:block;height:100%;background:var(--accent)}
+.relbtn{min-height:36px;border:1px solid var(--line);border-radius:999px;background:transparent;font-size:11px;padding:0 10px;margin:0 4px 4px 0}
 
-    footer { display: flex; justify-content: space-between; gap: 30px; padding: 34px clamp(20px, 6vw, 90px); border-top: 1px solid var(--line); color: var(--quiet); font-size: 12px; }
+/* settings */
+.group{background:var(--s1);border:1px solid #2f2d28;border-radius:14px;margin-bottom:14px;overflow:hidden}
+.group h4{margin:0;padding:12px 14px 4px;font:9.5px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:54px;padding:6px 14px;border-top:1px solid #2a2924;font-size:13px;width:100%;background:transparent;border-left:0;border-right:0;border-bottom:0;text-align:left}
+.srow small{display:block;color:var(--dim);font-size:11px}
+.srow .val{color:var(--muted);font-size:12px;text-align:right}
+.srow.dangerrow{color:var(--danger)}
+.switch{flex:0 0 52px;height:44px;border:0;background:transparent;display:grid;place-items:center;padding:0}
+.switch i{width:46px;height:28px;border-radius:999px;background:#3a3832;position:relative;transition:.15s}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#f3efe6;transition:.15s}
+.switch[aria-checked="true"] i{background:var(--good)}
+.switch[aria-checked="true"] i::after{left:21px}
 
-    @media (max-width: 1120px) {
-      .doc-layout { grid-template-columns: 210px minmax(0, 1fr); }
-      .doc-aside { display: none; }
-    }
-    @media (max-width: 900px) {
-      .intro { grid-template-columns: 1fr; min-height: auto; }
-      .intro-meta { margin-top: 20px; }
-      .prototype-section { grid-template-columns: 1fr; }
-      .prototype-copy { border-right: 0; border-bottom: 1px solid var(--line); }
-      .phone-stage { min-height: 900px; }
-      .topnav a { display: none; }
-    }
-    @media (max-width: 720px) {
-      .topbar { min-height: 58px; padding: 0 15px; }
-      .status-pill { display: none; }
-      .intro { padding: 58px 20px; }
-      h1 { font-size: clamp(49px, 16vw, 76px); }
-      .meta-row { grid-template-columns: 95px 1fr; }
-      .prototype-copy { padding: 54px 20px; }
-      .flow-detail { display: none; }
-      .phone-stage { padding: 34px 8px; min-height: 820px; }
-      .phone { width: min(390px, calc(100vw - 18px)); }
-      .doc-layout { display: block; }
-      .doc-nav { position: relative; top: 0; height: auto; padding: 35px 20px; border-right: 0; border-bottom: 1px solid var(--paper-line); columns: 2; }
-      .doc-nav h3, .doc-nav .section-kicker { column-span: all; }
-      .doc-main { padding: 60px 20px 90px; }
-      .doc-main section { padding-bottom: 48px; margin-bottom: 48px; }
-      .scope-table, .scope-table tbody, .scope-table tr, .scope-table td { display: block; }
-      .scope-table thead { display: none; }
-      .scope-table tr { padding: 12px 0; border-bottom: 1px solid var(--paper-line); }
-      .scope-table td { border: 0; padding: 4px 0; }
-      footer { flex-direction: column; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-    }
-    @media print {
-      .topbar, .prototype-section, .doc-nav, .doc-aside, footer { display: none !important; }
-      .intro { min-height: auto; padding: 1in .75in; color: #111; background: #fff; }
-      .intro-meta { border-color: #bbb; }
-      .intro-copy, .meta-label { color: #444; }
-      .doc-layout { display: block; }
-      .doc-main { padding: .5in .75in; }
-      .doc-main section { break-inside: avoid; }
-    }
-  </style>
+/* document */
+.doc{background:var(--paper);color:var(--paper-ink);padding:84px max(20px,calc((100vw - 940px)/2)) 100px}
+.doc .kicker{color:#7a5c22}
+.doc h2{font:600 clamp(32px,4vw,54px)/1.02 var(--serif);letter-spacing:-.04em;margin:12px 0 18px;max-width:780px}
+.doc h3{margin:38px 0 10px;font-size:19px}
+.doc p,.doc li{font:17px/1.65 var(--serif)}
+.doc p,.doc ul,.doc ol{max-width:780px}
+.doc a{color:#6e4f12}
+.doc code{font:14px var(--mono);background:#e3ddd0;padding:1px 4px;border-radius:4px}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0}
+.doc-card{padding:20px;border-top:2px solid #a17b35;background:#e6e0d4}
+.doc-card h3{margin:0 0 6px;font-size:16px}
+.doc-card p{font-size:14.5px;margin:0}
+.callout{padding:16px 18px;border:1px solid #c4b383;background:#e8dfc8;border-radius:10px;font:14.5px/1.55 var(--sans)!important}
+pre.schema{padding:16px;overflow:auto;background:#24231f;color:#ece7dd;border-radius:10px;font:12.5px/1.55 var(--mono);max-width:780px}
+footer{padding:28px clamp(20px,6vw,90px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;color:var(--dim);font-size:12px}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .artifact{grid-template-columns:1fr}
+  .rail{border-right:0;border-bottom:1px solid var(--line);padding-top:40px;padding-bottom:28px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;column-gap:16px}
+  .doc-grid{grid-template-columns:1fr}
+  .top nav a{display:none}
+}
+@media (max-width:520px){
+  .stage{padding:12px 0 24px;background:none}
+  .phone{width:100%;height:calc(100svh - 76px);min-height:620px;border:0;border-radius:0;padding:0;box-shadow:none}
+  .screen{border-radius:0}
+  .island{display:none}
+  .tabs{grid-template-columns:1fr}
+  .pill{display:none}
+  .doc{padding:56px 20px 80px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-  <header class="topbar">
-    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Hermes for iPhone</span></div>
-    <nav class="topnav" aria-label="Primary">
-      <a href="#prototype">Prototype</a>
-      <a href="#requirements">Requirements</a>
-      <a href="#architecture">Architecture</a>
-      <a href="#release">Release</a>
-      <span class="status-pill"><span class="status-dot"></span>Product concept · local only</span>
-    </nav>
-  </header>
+<a href="#prototype" class="skip">Skip to prototype</a>
+<header class="top">
+  <div class="brand"><i class="mark" aria-hidden="true"></i>Hermes for iPhone</div>
+  <nav aria-label="Page">
+    <a href="#prototype">Prototype</a><a href="#product">Product</a><a href="PRD.md">Full PRD</a><a href="README.md">README</a>
+    <span class="pill">Demo fixtures · no network</span>
+  </nav>
+</header>
 
-  <main id="main">
-    <section class="intro" aria-labelledby="intro-title">
-      <div>
-        <div class="eyebrow">Private native client · product requirements</div>
-        <h1 id="intro-title">Hermes, within reach.</h1>
-        <p class="intro-copy">A focused iPhone command surface for Ren's own Hermes Agent. Continue work, inspect tool activity, send context, and approve consequential actions without routing private conversations through a vendor service.</p>
-      </div>
-      <div class="intro-meta" aria-label="Project summary">
-        <div class="meta-row"><span class="meta-label">Posture</span><span class="meta-value">Direct TLS over a private authenticated path</span></div>
-        <div class="meta-row"><span class="meta-label">Secrets</span><span class="meta-value">iOS Keychain, released through LocalAuthentication</span></div>
-        <div class="meta-row"><span class="meta-label">Surface</span><span class="meta-value">Native SwiftUI command and inspection utility</span></div>
-        <div class="meta-row"><span class="meta-label">Status</span><span class="meta-value">Interactive product concept; API discovery required</span></div>
-      </div>
-    </section>
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div>
+    <div class="kicker">Public artifact · private native client concept</div>
+    <h1 id="hero-title">Hermes, shaped around the day.</h1>
+    <p>Chat stays the universal entry point. Recurring work gets a stable native home: a morning brief, learning drills, a shopping comparison space, and a map of what Hermes knows that you can inspect and correct.</p>
+  </div>
+  <div class="facts">
+    <div class="fact"><b>Persona</b><span>“Ren”, a sanitized demo persona: Brazilian software entrepreneur</span></div>
+    <div class="fact"><b>Client</b><span>SwiftUI · Observation · async actors</span></div>
+    <div class="fact"><b>Route</b><span>Direct TLS to an owner-run gateway over a private network</span></div>
+    <div class="fact"><b>Data</b><span>Every name, item, price, and status below is a demo fixture</span></div>
+  </div>
+</section>
 
-    <section class="prototype-section" id="prototype" aria-labelledby="prototype-title">
-      <div class="prototype-copy">
-        <div class="section-kicker">Clickable mobile prototype</div>
-        <h2 id="prototype-title">The main flow, in one hand.</h2>
-        <p class="section-lede">The phone is an operational surface, not a miniature dashboard. State stays compact. Risk interrupts clearly. Tap a step to inspect the screen.</p>
-        <div class="flow-list" role="tablist" aria-label="Prototype screens">
-          <button class="flow-btn active" type="button" data-screen="lock" role="tab" aria-selected="true"><span class="flow-num">01</span><span><span class="flow-name">Unlock</span><span class="flow-detail">Face ID protects local access</span></span><span class="flow-arrow">›</span></button>
-          <button class="flow-btn" type="button" data-screen="sessions" role="tab" aria-selected="false"><span class="flow-num">02</span><span><span class="flow-name">Sessions</span><span class="flow-detail">Resume work or start clean</span></span><span class="flow-arrow">›</span></button>
-          <button class="flow-btn" type="button" data-screen="chat" role="tab" aria-selected="false"><span class="flow-num">03</span><span><span class="flow-name">Active chat</span><span class="flow-detail">Streaming text and compact tools</span></span><span class="flow-arrow">›</span></button>
-          <button class="flow-btn" type="button" data-screen="approval" role="tab" aria-selected="false"><span class="flow-num">04</span><span><span class="flow-name">Approval</span><span class="flow-detail">Concrete scope before action</span></span><span class="flow-arrow">›</span></button>
-          <button class="flow-btn" type="button" data-screen="compose" role="tab" aria-selected="false"><span class="flow-num">05</span><span><span class="flow-name">Attach &amp; speak</span><span class="flow-detail">Photo, file, or voice note</span></span><span class="flow-arrow">›</span></button>
-          <button class="flow-btn" type="button" data-screen="settings" role="tab" aria-selected="false"><span class="flow-num">06</span><span><span class="flow-name">Security</span><span class="flow-detail">Connection, lock, and revocation</span></span><span class="flow-arrow">›</span></button>
-        </div>
-        <p class="prototype-note">Fixture data only. No request leaves this page and no credential is collected.</p>
-      </div>
+<section class="artifact" id="prototype" aria-labelledby="proto-title">
+  <div class="rail">
+    <div class="kicker">Touchable prototype</div>
+    <h2 id="proto-title">One agent. Six surfaces.</h2>
+    <p>Pick a surface or use the phone's tab bar. Drag and pinch the map. Rate words with the buttons or keys 1–3. Nothing leaves this page.</p>
+    <div class="tabs" aria-label="Jump to prototype surface">
+      <button class="tab" type="button" data-go="today"><small>01</small><span>Today</span><em>brief</em></button>
+      <button class="tab" type="button" data-go="chat"><small>02</small><span>Chat</span><em>approve</em></button>
+      <button class="tab" type="button" data-go="learn"><small>03</small><span>Learn</span><em>drill</em></button>
+      <button class="tab" type="button" data-go="shop"><small>04</small><span>Shop</span><em>compare</em></button>
+      <button class="tab" type="button" data-go="map"><small>05</small><span>Knowledge Map</span><em>inspect</em></button>
+      <button class="tab" type="button" data-go="settings"><small>06</small><span>Settings</span><em>secure</em></button>
+      <button class="tab" type="button" data-go="lock"><small>00</small><span>Lock screen</span><em>Face ID</em></button>
+    </div>
+    <div class="fixture-note"><strong>Demo only.</strong> All people, companies' activity, reminders, messages, products, prices, merchants, deliveries, memories, and confidence values are illustrative fixtures. Buttons labelled “demo” change only this page. There is no model, gateway, Face ID, payment, or merchant behind them.</div>
+  </div>
 
-      <div class="phone-stage">
-        <div class="phone" aria-label="Interactive iPhone prototype">
-          <div class="phone-screen">
-            <section class="screen lock-screen active" data-view="lock" aria-label="Locked app">
-              <div class="ios-status"><span>9:41</span><span class="signal">●●● 5G ▰</span></div>
-              <div class="lock-content">
-                <div class="lock-glyph" aria-hidden="true"><span>H</span></div>
-                <h3>Hermes is locked</h3>
-                <p>Conversations and gateway access stay hidden until you authenticate.</p>
-                <div class="private-route"><span class="status-dot"></span>Private route available</div>
-              </div>
-              <button class="primary block" type="button" id="unlockBtn">Unlock with Face ID</button>
-              <button class="quiet-action" type="button">Use device passcode</button>
-            </section>
+  <div class="stage">
+    <div class="phone" role="region" aria-label="Interactive iPhone prototype">
+      <div class="screen" id="screen">
+        <div class="island" aria-hidden="true"></div>
+        <div class="status" aria-hidden="true"><span>9:41</span><span class="net" id="netStatus">● private route · demo</span></div>
+        <div class="banner" id="netBanner" role="status"></div>
 
-            <section class="screen" data-view="sessions" aria-label="Sessions list">
-              <div class="ios-status"><span>9:41</span><span class="signal">●●● 5G ▰</span></div>
-              <header class="app-header"><div><div class="mini-label">Private gateway</div><div class="app-title">Sessions</div></div><button class="header-button settings-link" type="button" aria-label="Open settings">⚙</button></header>
-              <div class="session-toolbar"><input class="search" type="search" placeholder="Search sessions" aria-label="Search sessions"></div>
-              <div class="session-list">
-                <div class="session-group">Needs attention</div>
-                <button class="session-row open-chat" type="button"><span class="session-state attention"></span><span><span class="session-name">Hermes iOS product brief</span><span class="session-preview">Approval needed before saving a file</span></span><span class="session-time">NOW</span></button>
-                <div class="session-group">Active</div>
-                <button class="session-row open-chat" type="button"><span class="session-state live"></span><span><span class="session-name">Gateway security review</span><span class="session-preview">Checking token revocation paths…</span></span><span class="session-time">4m</span></button>
-                <button class="session-row open-chat" type="button"><span class="session-state"></span><span><span class="session-name">Weekly planning</span><span class="session-preview">Next action: confirm Tuesday priorities</span></span><span class="session-time">1h</span></button>
-                <div class="session-group">Earlier</div>
-                <button class="session-row open-chat" type="button"><span class="session-state"></span><span><span class="session-name">SwiftUI architecture notes</span><span class="session-preview">Adapter protocol and actor boundaries</span></span><span class="session-time">Tue</span></button>
-                <button class="session-row open-chat" type="button"><span class="session-state"></span><span><span class="session-name">Travel document check</span><span class="session-preview">Completed</span></span><span class="session-time">Mon</span></button>
-              </div>
-              <button class="fab open-chat" type="button" aria-label="Create session">+</button>
-            </section>
+        <!-- LOCK -->
+        <section class="lock" id="lock" aria-label="Locked">
+          <div class="glyph" aria-hidden="true">H</div>
+          <h3>Hermes is locked</h3>
+          <p>Briefings, chats, and memory stay hidden until you authenticate.</p>
+          <p class="label" style="margin-top:10px">Demo: no biometric prompt runs in a browser</p>
+          <div class="spacer"></div>
+          <button class="btn" type="button" id="unlockBtn">Unlock with Face ID (demo)</button>
+          <button class="link" type="button" id="passcodeBtn" style="align-self:center">Use device passcode (demo)</button>
+        </section>
 
-            <section class="screen" data-view="chat" aria-label="Active chat">
-              <div class="ios-status"><span>9:41</span><span class="signal">●●● 5G ▰</span></div>
-              <header class="chat-header"><button class="icon-button sessions-link" type="button" aria-label="Back to sessions">‹</button><div class="chat-heading"><div class="chat-title">Hermes iOS product brief</div><div class="chat-state">Streaming · private route</div></div><button class="icon-button settings-link" type="button" aria-label="Open session details">···</button></header>
-              <div class="transcript">
-                <div class="message user"><p>Turn the security posture into a concrete MVP and flag assumptions.</p></div>
-                <div class="message"><div class="message-meta">Hermes · 9:39</div><p>I’m separating verified client requirements from gateway behavior that still needs discovery.</p></div>
-                <div class="tool-card" id="toolCard"><button class="tool-toggle" type="button" aria-expanded="false"><span class="tool-icon">⌁</span><span><span class="tool-name">Read product context</span><span class="setting-note">2 files · sensitive fields redacted</span></span><span class="tool-status">Done</span></button><div class="tool-detail">Read-only access. Sources: README.md and security-notes.md. No credentials or raw headers retained.</div></div>
-                <div class="message"><div class="message-meta">Hermes · now</div><p>The MVP uses Keychain plus Face ID, direct TLS, and an adapter boundary around the unverified API. A background socket cannot be promised on iOS, so foreground reconciliation is the reliable baseline.<span class="stream-caret" aria-label="Streaming"></span></p></div>
-                <button class="approval-alert" id="approvalAlert" type="button"><span><strong>Approval required</strong><span>Write the completed PRD to a local workspace</span></span><span>Review ›</span></button>
-              </div>
-              <div class="composer-shell" id="composerShell">
-                <div class="attach-panel" aria-label="Attachment choices"><button class="attach-choice" type="button">Photo</button><button class="attach-choice" type="button">File</button><button class="attach-choice" type="button" id="voiceChoice">Voice note</button></div>
-                <div class="composer"><button class="icon-button" id="attachBtn" type="button" aria-label="Add attachment">＋</button><textarea aria-label="Message" placeholder="Message Hermes"></textarea><button class="send" type="button" aria-label="Send message">↑</button></div>
-                <div class="voice-bar"><span class="record-dot"></span><span class="wave" aria-hidden="true"></span><span id="voiceTime">0:08</span><button class="icon-button" id="stopVoice" type="button" aria-label="Stop recording">■</button></div>
-              </div>
-            </section>
-
-            <section class="screen" data-view="settings" aria-label="Settings and security">
-              <div class="ios-status"><span>9:41</span><span class="signal">●●● 5G ▰</span></div>
-              <header class="app-header"><button class="icon-button sessions-link" type="button" aria-label="Back">‹</button><div class="app-title">Settings</div><span style="width:44px"></span></header>
-              <div class="settings-scroll">
-                <div class="settings-section"><h3>Connection</h3><div class="settings-group"><div class="setting-row"><div><div class="setting-name">Gateway</div><div class="setting-note">TLS required</div></div><div class="setting-value">hermes.private</div></div><div class="setting-row"><div><div class="setting-name">Profile</div><div class="setting-note">Single-profile MVP</div></div><div class="setting-value">default ›</div></div><div class="setting-row"><div><div class="setting-name">Route</div><div class="setting-note">Last checked now</div></div><div class="setting-value" style="color:var(--good)">Private · reachable</div></div></div></div>
-                <div class="settings-section"><h3>Security</h3><div class="settings-group"><div class="setting-row"><div><div class="setting-name">Require Face ID</div><div class="setting-note">On launch and after 2 minutes</div></div><button class="toggle on" type="button" role="switch" aria-checked="true" aria-label="Require Face ID"></button></div><div class="setting-row"><div><div class="setting-name">Re-authenticate approvals</div><div class="setting-note">For high-impact actions</div></div><button class="toggle on" type="button" role="switch" aria-checked="true" aria-label="Re-authenticate approvals"></button></div><div class="setting-row"><div><div class="setting-name">Notification previews</div><div class="setting-note">Sensitive content hidden</div></div><div class="setting-value">Redacted ›</div></div><button class="setting-row danger-row" type="button" style="width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left"><div><div class="setting-name">Revoke mobile token</div><div class="setting-note">Disconnect this device immediately</div></div><span>›</span></button></div></div>
-                <div class="settings-section"><h3>Local data</h3><div class="settings-group"><div class="setting-row"><div><div class="setting-name">Diagnostics</div><div class="setting-note">Short retention, strict redaction</div></div><div class="setting-value">Off</div></div><button class="setting-row danger-row" type="button" style="width:100%;border:0;background:transparent;text-align:left"><div><div class="setting-name">Erase local data</div><div class="setting-note">Drafts, cache, and credential</div></div><span>›</span></button></div></div>
-              </div>
-            </section>
-
-            <div class="sheet-backdrop" id="approvalSheet" aria-hidden="true">
-              <div class="approval-sheet" role="dialog" aria-modal="true" aria-labelledby="approvalTitle">
-                <div class="sheet-handle"></div><div class="mini-label risk">Consequential action</div><h3 id="approvalTitle">Allow file write?</h3><p>Hermes is paused. Review the exact target before deciding.</p>
-                <dl class="approval-facts"><div class="fact"><dt>Action</dt><dd>Create three product artifact files</dd></div><div class="fact"><dt>Target</dt><dd>/dev/hermes-ios-artifact/</dd></div><div class="fact"><dt>Scope</dt><dd>index.html, README.md, PRD.md</dd></div><div class="fact"><dt>Reversible</dt><dd>Yes, by deleting the local files</dd></div><div class="fact"><dt>Network</dt><dd>None</dd></div></dl>
-                <div class="sheet-actions"><button class="deny" id="denyApproval" type="button">Deny</button><button class="primary" id="approveApproval" type="button">Approve with Face ID</button></div>
-              </div>
+        <!-- TODAY -->
+        <section class="view" data-view="today" aria-label="Today">
+          <header class="apphead"><div><span class="demo">Demo fixture · Sat 31 Oct</span><h3>Good morning, Ren</h3></div><button class="icon" type="button" data-go="settings" aria-label="Settings">⚙</button></header>
+          <div class="scroll">
+            <div class="sec"><h4>Reminders</h4><span id="remCount">3 open</span></div>
+            <div class="card" id="reminders">
+              <div class="rem"><button class="check" type="button" aria-label="Mark done: Review Anotar release notes" aria-pressed="false"><i aria-hidden="true"></i></button><div class="rtxt">Review Anotar release notes draft<small>Business · from a demo chat</small></div></div>
+              <div class="rem"><button class="check" type="button" aria-label="Mark done: Tennis session, bring spare grip" aria-pressed="false"><i aria-hidden="true"></i></button><div class="rtxt">Tennis session, bring spare grip<small>Fitness · 18:00 demo</small></div></div>
+              <div class="rem"><button class="check" type="button" aria-label="Mark done: 10 German words before lunch" aria-pressed="false"><i aria-hidden="true"></i></button><div class="rtxt">10 German words before lunch<small>Learning · routine</small></div></div>
             </div>
-            <div class="home-indicator"></div>
+
+            <div class="sec"><h4>Briefings</h4><span>Read-only summaries</span></div>
+            <article class="card">
+              <div class="row"><span class="label">Inbox</span><span class="badge ro">Read-only</span></div>
+              <h5>3 threads worth a look</h5>
+              <p>Hermes summarizes. It cannot send, archive, or delete from here.</p>
+              <ul class="brief-list" id="inboxList">
+                <li><b>App store review reply</b> · demo sender · a user asks about meeting-note export</li>
+                <li><b>Design contractor</b> · demo sender · new icon set ready for review</li>
+                <li><b>Tennis club</b> · demo sender · court schedule change next week</li>
+              </ul>
+              <div class="row"><button class="link" type="button" data-toggle="inboxList" aria-expanded="false" aria-controls="inboxList">Show summaries</button><span class="cite">demo://mail · 08:40 fixture</span></div>
+            </article>
+            <article class="card">
+              <div class="row"><span class="label">Calendar</span><span class="badge ro">Read-only</span></div>
+              <h5>2 events · focus block 14:00</h5>
+              <p>No attendees, locations, or links shown in this fixture.</p>
+              <ul class="brief-list" id="calList">
+                <li><b>10:00</b> · Product sync (demo)</li>
+                <li><b>14:00–16:00</b> · Focus: GlipOne onboarding copy</li>
+                <li><b>18:00</b> · Tennis (demo)</li>
+              </ul>
+              <div class="row"><button class="link" type="button" data-toggle="calList" aria-expanded="false" aria-controls="calList">Show agenda</button><span class="cite">demo://calendar · 08:40 fixture</span></div>
+            </article>
+
+            <div class="sec"><h4>Learning</h4><span>Due today</span></div>
+            <article class="card">
+              <div class="row"><span class="label">German A2 · Mandarin A1 · Flags</span><span class="badge" id="todayLearnBadge">0 rated</span></div>
+              <h5>Daily drill</h5><p>One target word at a time, then characters and a flag.</p>
+              <button class="link" type="button" data-route="learn/german">Continue lesson ›</button><span class="route">hermes://learn/german · proposed route</span>
+            </article>
+
+            <div class="sec"><h4>Workspaces</h4><span>Tap to deep link</span></div>
+            <div class="cardgrid">
+              <article class="card"><span class="label">Travel</span><h5>Long-weekend ideas</h5><p>3 demo destinations shortlisted. No bookings.</p><button class="link" type="button" data-route="map/node/travel">Open in map ›</button><span class="route">hermes://map/node/travel</span></article>
+              <article class="card"><span class="label">Fitness</span><h5>Tennis + mobility</h5><p>Routine fixture: 2 court sessions, 1 mobility day.</p><button class="link" type="button" data-route="map/node/fitness">Open in map ›</button><span class="route">hermes://map/node/fitness</span></article>
+              <article class="card"><span class="label">Business</span><h5>Genio Tech</h5><p>Release-notes draft for Anotar awaits review.</p><button class="link" type="button" data-route="chat/new?prompt=business">Ask Hermes ›</button><span class="route">hermes://chat/new?prompt=…</span></article>
+              <article class="card"><span class="label">Shopping</span><h5>Travel headphones</h5><p>4 demo options. Prices unverified.</p><button class="link" type="button" data-route="shop">Compare ›</button><span class="route">hermes://shop/travel-headphones</span></article>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <div class="doc-shell">
-      <div class="doc-layout">
-        <nav class="doc-nav" aria-label="PRD sections">
-          <div class="section-kicker">Product requirements</div><h3>Reading map</h3>
-          <a href="#product">01 · Product</a><a href="#scope">02 · Scope</a><a href="#experience">03 · Experience</a><a href="#requirements">04 · Requirements</a><a href="#architecture">05 · Architecture</a><a href="#security">06 · Security</a><a href="#delivery">07 · Delivery</a><a href="#acceptance">08 · Acceptance</a><a href="#release">09 · Release</a>
+        <!-- CHAT -->
+        <section class="view" data-view="chat" aria-label="Chat">
+          <header class="apphead"><div><span class="demo">Demo session · fixture replies</span><h3>Planning</h3></div><button class="icon" type="button" data-go="settings" aria-label="Settings">⚙</button></header>
+          <div class="transcript" id="transcript" aria-live="polite">
+            <div class="msg me">Plan a quiet travel week around tennis and keep my German streak.</div>
+            <div class="msg hermes"><div class="meta">Hermes · 09:12 · fixture</div>I'll check your saved travel preferences and today's learning routine first.</div>
+            <div class="tool" id="toolCard"><button type="button" aria-expanded="false"><span aria-hidden="true">⌁</span><span>Read memory: travel, fitness<span class="route">2 records · sensitive fields redacted</span></span><span class="badge ro">Done</span></button><div class="det">Read-only. Sources: demo://memory/travel, demo://memory/fitness. No credentials, raw headers, or full payloads are kept on device.</div></div>
+            <div class="block" id="lessonBlock">
+              <div class="row"><span class="label">Structured block · lesson v1</span><button class="link" type="button" id="fbToggle" aria-expanded="false">Text fallback</button></div>
+              <div class="word" style="font-size:24px">die Reise</div><div class="gloss">the trip · noun, feminine</div>
+              <p class="ex" style="font-size:13.5px">Die Reise nach Lissabon war entspannt.</p>
+              <button class="link" type="button" data-route="learn/german">Open in Learn ›</button>
+              <div class="fb">German A2 · die Reise (the trip, noun, feminine).
+Example: Die Reise nach Lissabon war entspannt.
+(Shown when the client cannot render block type "lesson" v1.)</div>
+            </div>
+            <button class="alert" type="button" id="approvalAlert"><span><strong>Approval required</strong>Create a recurring fare-watch job</span><span>Review ›</span></button>
+          </div>
+          <div class="composer">
+            <div class="pending-chips" id="pendingChips" aria-label="Attachments to send"></div>
+            <div class="attach-panel" id="attachPanel" aria-label="Attachment type">
+              <button type="button" data-attach="photo">Photo</button><button type="button" data-attach="file">File</button><button type="button" id="voiceBtn">Voice note</button>
+            </div>
+            <div class="voice-bar" id="voiceBar" role="status"><span class="dot" aria-hidden="true"></span><span class="t" id="voiceTime">Recording (demo) 0:00</span><button class="icon" type="button" id="voiceStop" aria-label="Stop and keep voice note">■</button><button class="icon" type="button" id="voiceCancel" aria-label="Discard recording">×</button></div>
+            <div class="inputrow">
+              <button class="icon" type="button" id="attachBtn" aria-label="Add attachment" aria-expanded="false" aria-controls="attachPanel">＋</button>
+              <textarea id="msgInput" rows="1" aria-label="Message" placeholder="Message Hermes (demo)"></textarea>
+              <button class="send" type="button" id="sendBtn" aria-label="Send message">↑</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- LEARN -->
+        <section class="view" data-view="learn" aria-label="Learn">
+          <header class="apphead"><div><span class="demo">Demo progress · not real</span><h3>Daily learning</h3></div><button class="icon" type="button" data-go="settings" aria-label="Settings">⚙</button></header>
+          <div class="seg" role="tablist" aria-label="Learning track">
+            <button type="button" role="tab" id="t-german" aria-controls="p-german" aria-selected="true" data-pane="german">German A2</button>
+            <button type="button" role="tab" id="t-mandarin" aria-controls="p-mandarin" aria-selected="false" data-pane="mandarin" tabindex="-1">Mandarin A1</button>
+            <button type="button" role="tab" id="t-flags" aria-controls="p-flags" aria-selected="false" data-pane="flags" tabindex="-1">Flags</button>
+          </div>
+          <div class="scroll">
+            <div class="pane active" id="p-german" role="tabpanel" aria-labelledby="t-german">
+              <article class="card" id="germanCard">
+                <div class="row"><span class="label">Target word · A2 fixture</span><span class="badge" id="gProgress">1 / 8</span></div>
+                <div class="word" id="gWord" lang="de"></div>
+                <div class="gloss" id="gGloss"></div>
+                <p class="ex" id="gEx" lang="de"></p>
+                <p class="ex-tr" id="gExTr"></p>
+                <div class="btnrow"><button class="btn ghost" type="button" id="gAudio">▶ Play example (demo)</button></div>
+                <p class="label" id="audioNote" style="margin-top:6px">Uses the browser's built-in speech voice if present. Not production audio.</p>
+                <div class="rates" role="group" aria-label="Rate this word. Keys 1, 2, 3.">
+                  <button class="rate" type="button" data-rate="1"><b>1</b>New</button>
+                  <button class="rate" type="button" data-rate="2"><b>2</b>Forgot</button>
+                  <button class="rate" type="button" data-rate="3"><b>3</b>Known</button>
+                </div>
+              </article>
+              <article class="card" id="germanDone" hidden>
+                <span class="label">Session complete · demo</span><h5>All 8 fixture words rated</h5>
+                <p>In production, ratings would go to the Hermes learning record through a verified write path.</p>
+                <div class="btnrow"><button class="btn ghost" type="button" id="gReset">Restart demo set</button></div>
+              </article>
+              <div class="card"><span class="label">This session</span><div class="tally" id="gTally"></div><p style="margin-top:8px">1 = new to me · 2 = seen but forgot · 3 = known. Every rating moves to the next unseen word right away.</p></div>
+            </div>
+
+            <div class="pane" id="p-mandarin" role="tabpanel" aria-labelledby="t-mandarin">
+              <article class="card">
+                <div class="row"><span class="label">Character · A1 fixture</span><span class="badge" id="mProgress">1 / 6</span></div>
+                <div class="hanzi" id="mHanzi" lang="zh-Hans"></div>
+                <div class="reveal" id="mReveal"><div class="gloss" id="mPinyin" style="font-size:18px"></div><p id="mMeaning" style="color:var(--text);font-size:14px;margin-top:4px"></p><p class="ex" id="mEx" lang="zh-Hans"></p></div>
+                <div class="btnrow"><button class="btn ghost" type="button" id="mShow" aria-controls="mReveal" aria-expanded="false">Show pinyin + meaning</button><button class="btn ghost" type="button" id="mAudio">▶ Audio (demo)</button><button class="btn" type="button" id="mNext">Next</button></div>
+              </article>
+            </div>
+
+            <div class="pane" id="p-flags" role="tabpanel" aria-labelledby="t-flags">
+              <article class="card">
+                <div class="row"><span class="label">Flag challenge · answer hidden</span><span class="badge" id="fScore">0 / 0</span></div>
+                <div class="flagbox" id="flagBox"></div>
+                <label class="sr" for="flagGuess">Your guess (English or Portuguese)</label>
+                <input class="field" id="flagGuess" autocomplete="off" placeholder="Guess in English or Portuguese">
+                <div class="btnrow"><button class="btn" type="button" id="flagCheck">Reveal</button><button class="btn ghost" type="button" id="flagNext">Next flag</button></div>
+                <div class="reveal" id="flagReveal" role="status">
+                  <div class="verdict" id="flagVerdict"></div>
+                  <dl class="facts2" style="margin:0"><dt>English</dt><dd id="fEn"></dd><dt>Português</dt><dd id="fPt"></dd><dt>Location</dt><dd id="fLoc"></dd><dt>ISO 3166</dt><dd id="fIso"></dd></dl>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- SHOP -->
+        <section class="view" data-view="shop" aria-label="Shop">
+          <header class="apphead"><div><span class="demo">Demo offers · unverified</span><h3>Travel headphones</h3></div><button class="icon" type="button" data-go="settings" aria-label="Settings">⚙</button></header>
+          <div class="toolbar">
+            <button class="btn ghost" type="button" id="favFilter" aria-pressed="false">♡ Favorites only</button>
+            <button class="btn" type="button" id="cmpOpen" disabled>Compare (0)</button>
+          </div>
+          <div class="scroll" id="productList"></div>
+          <div class="sheet-bg" id="cmpSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cmpTitle"><div class="handle"></div><span class="demo">Fixture comparison · verify before buying</span><h4 id="cmpTitle">Compare</h4><div id="cmpBody"></div><div class="btnrow"><button class="btn ghost" type="button" id="cmpClose">Close</button></div></div></div>
+        </section>
+
+        <!-- MAP -->
+        <section class="view" data-view="map" aria-label="Knowledge Map">
+          <header class="apphead"><div><span class="demo">Demo memory projection</span><h3>Knowledge Map</h3></div><button class="icon" type="button" data-go="settings" aria-label="Settings">⚙</button></header>
+          <div class="mapwrap" id="mapWrap">
+            <div class="chipsbar" id="mapFilters" aria-label="Filter categories"></div>
+            <div class="maptools"><button type="button" id="zIn" aria-label="Zoom in">+</button><button type="button" id="zOut" aria-label="Zoom out">−</button><button type="button" id="zFit" aria-label="Reset view">⌖</button></div>
+            <div class="graph" id="graph"><svg id="edges" aria-hidden="true"></svg></div>
+            <div class="maphint" id="mapHint">drag to pan · pinch or scroll to zoom · tap a node</div>
+            <aside class="inspector" id="inspector" aria-label="Node inspector">
+              <div class="handle"></div>
+              <div class="row"><span class="demo" id="iCat"></span><button class="icon" type="button" id="iClose" aria-label="Close inspector">×</button></div>
+              <h4 id="iTitle"></h4>
+              <p id="iSummary" style="font-size:13px;color:var(--text)"></p>
+              <div id="iEdit" hidden><label class="sr" for="iText">Corrected summary</label><textarea id="iText"></textarea><div class="btnrow"><button class="btn ghost" type="button" id="iCancel">Cancel</button><button class="btn" type="button" id="iSave">Save correction (demo)</button></div></div>
+              <dl class="facts2">
+                <dt>Provenance</dt><dd id="iProv"></dd>
+                <dt>Confidence</dt><dd id="iConf"></dd>
+                <dt>Privacy</dt><dd id="iPriv"></dd>
+                <dt>Updated</dt><dd id="iUpd"></dd>
+                <dt>State</dt><dd id="iState"></dd>
+              </dl>
+              <div><span class="label">Connected</span><div id="iRel" style="margin-top:6px"></div></div>
+              <div class="btnrow"><button class="btn ghost" type="button" id="iCorrect">Correct (demo)</button><button class="btn danger" type="button" id="iForget">Forget (demo)</button></div>
+              <p class="label" style="margin-top:8px">Demo changes are local to this page and reset on reload.</p>
+            </aside>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="view" data-view="settings" aria-label="Settings">
+          <header class="apphead"><div><span class="demo">Demo settings · nothing persisted</span><h3>Settings</h3></div><button class="icon" type="button" data-go="today" aria-label="Back to Today">‹</button></header>
+          <div class="scroll">
+            <div class="group"><h4>Connection</h4>
+              <div class="srow"><span>Gateway<small>HTTPS only · not configured in demo</small></span><span class="val">gateway.example</span></div>
+              <div class="srow"><span>Route<small>Private network recommended</small></span><span class="val" id="routeVal">Private · demo</span></div>
+              <button class="srow" type="button" id="testConn"><span>Test connection<small>Demo: makes no network request</small></span><span class="val">›</span></button>
+              <div class="srow"><span>Simulate offline<small>Queues chat sends; reconnect reconciles</small></span><button class="switch" type="button" role="switch" aria-checked="false" id="offlineSw" aria-label="Simulate offline"><i></i></button></div>
+            </div>
+            <div class="group"><h4>Security</h4>
+              <div class="srow"><span>Require Face ID<small>On launch and after 2 minutes</small></span><button class="switch" type="button" role="switch" aria-checked="true" aria-label="Require Face ID"><i></i></button></div>
+              <div class="srow"><span>Re-authenticate approvals<small>High-impact actions</small></span><button class="switch" type="button" role="switch" aria-checked="true" aria-label="Re-authenticate approvals"><i></i></button></div>
+              <div class="srow"><span>Notification previews<small>Content hidden by default</small></span><span class="val">Redacted</span></div>
+              <button class="srow" type="button" id="lockNow"><span>Lock now</span><span class="val">›</span></button>
+            </div>
+            <div class="group"><h4>Knowledge Map privacy</h4>
+              <div class="srow"><span>Show personal nodes<small>Sensitivity filter runs before layout</small></span><button class="switch" type="button" role="switch" aria-checked="true" id="personalSw" aria-label="Show personal nodes"><i></i></button></div>
+              <div class="srow"><span>Sensitive records<small>Never projected into the map</small></span><span class="val">Excluded</span></div>
+            </div>
+            <div class="group"><h4>Local data</h4>
+              <button class="srow" type="button" id="resetDemo"><span>Reset demo state<small>Ratings, favorites, map edits, chat</small></span><span class="val">›</span></button>
+              <button class="srow dangerrow" type="button" id="revokeBtn"><span>Revoke mobile token<small>Demo: no token exists</small></span><span>›</span></button>
+              <button class="srow dangerrow" type="button" id="eraseBtn"><span>Erase local data<small>Cache, drafts, credential</small></span><span>›</span></button>
+            </div>
+            <p class="label" style="padding:0 4px">Artifact build · fixtures only · no analytics</p>
+          </div>
+        </section>
+
+        <!-- approval sheet -->
+        <div class="sheet-bg" id="apSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="apTitle">
+          <div class="handle"></div><span class="demo">Consequential action · demo</span><h4 id="apTitle">Create a fare-watch job?</h4>
+          <p>Hermes is paused on this step. Nothing runs until you decide.</p>
+          <dl class="facts2"><dt>Action</dt><dd>Create a recurring scheduled job</dd><dt>Schedule</dt><dd>Daily, 07:00 (demo)</dd><dt>Scope</dt><dd>Public fare search for 3 demo routes</dd><dt>Notifies</dt><dd>Redacted “update ready” only</dd><dt>Reversible</dt><dd>Yes: pause or delete the job</dd><dt>Spends money</dt><dd>No</dd></dl>
+          <div class="btnrow"><button class="btn ghost" type="button" id="apDeny">Deny</button><button class="btn" type="button" id="apApprove">Approve with Face ID (demo)</button></div>
+        </div></div>
+
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+        <nav class="tabbar" aria-label="App tabs">
+          <button class="tabbtn" type="button" data-go="today"><b aria-hidden="true">☀︎</b>Today</button>
+          <button class="tabbtn" type="button" data-go="chat"><b aria-hidden="true">✦</b>Chat</button>
+          <button class="tabbtn" type="button" data-go="learn"><b aria-hidden="true">文</b>Learn</button>
+          <button class="tabbtn" type="button" data-go="shop"><b aria-hidden="true">◫</b>Shop</button>
+          <button class="tabbtn" type="button" data-go="map"><b aria-hidden="true">⌘</b>Map</button>
         </nav>
-        <article class="doc-main">
-          <section id="product">
-            <div class="section-kicker">01 · Product</div><h2>A private remote surface, not another chat service.</h2>
-            <p>Hermes for iPhone connects Ren directly to a gateway he controls. It is designed for checking active work, continuing a conversation, sending context, and making deliberate approval decisions away from the Mac.</p>
-            <p class="callout"><strong>Contract boundary:</strong> this artifact does not invent Hermes endpoints or event fields. Authentication, session APIs, stream framing, attachments, approvals, pagination, and replay behavior must be validated against the live gateway before implementation.</p>
-            <h3>Principles</h3>
-            <ol><li>Secrets stay in Keychain. Content stays out of logs and notification previews.</li><li>Tool activity is inspectable, while consequential work pauses for explicit approval.</li><li>The app shows compact state instead of generating a bubble for every internal step.</li><li>Network loss cannot silently change an action from pending to complete.</li><li>The interface follows native accessibility, navigation, input, and security conventions.</li></ol>
-            <h3>Core jobs</h3>
-            <ul><li>Check what Hermes is doing without opening a laptop.</li><li>Resume a session and see live output as it arrives.</li><li>Send a photo, document, or voice note as working context.</li><li>Approve or deny an action with concrete scope and risk.</li><li>Lock the client and revoke its gateway token quickly.</li></ul>
-          </section>
-
-          <section id="scope">
-            <div class="section-kicker">02 · Scope</div><h2>Start with the trusted path.</h2>
-            <table class="scope-table"><thead><tr><th>MVP</th><th>Later</th><th>Not now</th></tr></thead><tbody><tr><td>Face ID gate and Keychain credential</td><td>Private push relay for reliable alerts</td><td>Vendor-hosted relay or account layer</td></tr><tr><td>Sessions, streaming chat, Markdown/code</td><td>Cron, skills, memory, bot, and admin controls</td><td>Assumed or reverse-engineered API contract</td></tr><tr><td>Compact tools and explicit approvals</td><td>Widgets, Siri, App Intents, offline queue</td><td>Raw chain-of-thought or hidden reasoning</td></tr><tr><td>Photos, files, and voice notes</td><td>Multiple gateways, iPad, and macOS</td><td>App Store release in this phase</td></tr><tr><td>Reconnect, redacted local alerts, accessibility</td><td>Rich diff and file inspection</td><td>Analytics by default</td></tr></tbody></table>
-            <h3>User stories</h3>
-            <ul><li>As Ren, I can unlock with Face ID so casual phone access does not expose my agent.</li><li>I can see recent and active sessions and tell which one needs attention.</li><li>I can watch an answer stream and inspect sanitized tool detail without execution noise.</li><li>I can preview a photo, file, or voice recording before sending it.</li><li>I can understand an approval's actor, target, scope, and reversibility before deciding.</li><li>I can distinguish sending, sent, failed, and reconnecting states.</li></ul>
-          </section>
-
-          <section id="experience">
-            <div class="section-kicker">03 · Experience</div><h2>Read the room. Then act.</h2>
-            <h3>First run</h3><ol><li>Explain direct private connectivity and local secret storage.</li><li>Enter an HTTPS gateway URL and choose the default profile.</li><li>Write the token directly to Keychain through a secure field.</li><li>Run a capability and connection check through the gateway adapter.</li><li>Enroll Face ID as the local unlock requirement.</li></ol>
-            <h3>Returning use</h3><p>The lock view reveals no conversations. After authentication, the session list sorts attention-needed and active work above history. Chat is a pushed detail view. An approval appears as a sheet and blocks only the related operation, not transcript reading.</p>
-            <h3>Streaming and tools</h3><p>The transcript shows connecting, streaming, waiting on a tool, or awaiting approval. Tool events collapse into one activity row with a human label, status, start time, and sanitized target. Raw payloads stay hidden.</p>
-            <h3>Attachments and voice</h3><p>Files use the system document picker. Photos use selected-only access. Voice capture includes elapsed time, level, stop, replay, delete, and send. Upload errors remain attached to the draft instead of disappearing in a toast.</p>
-          </section>
-
-          <section id="requirements">
-            <div class="section-kicker">04 · Requirements</div><h2>Behavior that can be tested.</h2>
-            <h3>Authentication and connection</h3><ul><li>Accept only <code>https://</code> gateway URLs outside local debug builds.</li><li>Store credentials only in a device-only Keychain item.</li><li>Gate credential retrieval with LocalAuthentication.</li><li>Support token replacement, revocation guidance, logout, and local erasure.</li><li>Separate reachability, TLS, authentication, protocol mismatch, and server errors without echoing secrets.</li></ul>
-            <h3>Sessions and chat</h3><ul><li>List, create, open, and resume sessions through the adapter.</li><li>Stream output and reconcile authoritative state after reconnect.</li><li>Render a safe subset of Markdown, code, links, lists, and tables.</li><li>Preserve local drafts without caching the token or raw tool payloads.</li><li>Retry only when duplication is impossible or a verified idempotency mechanism exists.</li></ul>
-            <h3>Approvals and media</h3><ul><li>Normalize queued, running, succeeded, failed, and approval-required tool events.</li><li>Require a deliberate tap to approve or deny. Silence and timeouts never approve.</li><li>Re-authenticate configured high-impact approvals.</li><li>Read gateway state before marking an approval complete.</li><li>Preview and remove attachments; show upload progress and durable failure state.</li></ul>
-            <h3>Quality requirements</h3><ul><li>No secrets in UserDefaults, SwiftData, logs, crash metadata, analytics, pasteboard, or notification bodies.</li><li>Session cache appears within one second; streamed text renders as transport delivers it.</li><li>Reconnect does not reorder messages or duplicate approval decisions.</li><li>Support VoiceOver, accessibility text sizes, reduced motion, sufficient contrast, and non-color cues.</li><li>Transport and wire schema remain isolated from views and domain models.</li></ul>
-          </section>
-
-          <section id="architecture">
-            <div class="section-kicker">05 · Architecture</div><h2>Native above. Adaptable below.</h2>
-            <p>Use SwiftUI with Observation for interface state, async/await actors for connection and data coordination, and URLSession WebSocket or URLSession byte streaming after the contract spike identifies the real transport. Network.framework can describe path changes, but request success remains authoritative.</p>
-            <pre aria-label="Architecture diagram">SwiftUI views
-    ↓
-Feature models (Observation)
-    ↓
-HermesClient protocol
-    ↓
-Gateway adapter + event normalizer
-    ↓
-URLSession transport
-
-KeychainVault actor   LocalCache actor   Reachability monitor</pre>
-            <h3>Adapter boundary</h3>
-            <pre><code>protocol HermesClient: Sendable {
-  func capabilities() async throws -&gt; GatewayCapabilities
-  func sessions() async throws -&gt; [SessionSummary]
-  func createSession(profile: String) async throws -&gt; SessionID
-  func events(for session: SessionID)
-    -&gt; AsyncThrowingStream&lt;HermesEvent, Error&gt;
-  func send(_ draft: OutboundDraft, to session: SessionID)
-    async throws -&gt; MessageReceipt
-  func decide(_ decision: ApprovalDecision)
-    async throws -&gt; ApprovalReceipt
-}</code></pre>
-            <p>These types describe app needs, not confirmed server names. The discovery spike maps verified gateway behavior into them.</p>
-            <h3>Storage boundary</h3>
-            <table class="scope-table"><thead><tr><th>Keychain</th><th>SwiftData / app container</th><th>Memory where practical</th></tr></thead><tbody><tr><td>Gateway credential</td><td>Credential-free hostname and profile label</td><td>Decrypted token</td></tr><tr><td>Optional trust metadata</td><td>Session summaries, drafts, preferences</td><td>Raw stream frames before normalization</td></tr><tr><td></td><td>Redacted diagnostic events</td><td>Raw approval payload before sanitizing</td></tr></tbody></table>
-            <h3>Background reality</h3><p>iOS will suspend a direct socket. MVP reconnects on foreground and queries authoritative state before resuming live events. If reliable remote alerts become necessary, a small private push relay receives only opaque event identifiers. The phone fetches details after unlock.</p>
-          </section>
-
-          <section id="security">
-            <div class="section-kicker">06 · Security</div><h2>Treat the mobile token as high privilege.</h2>
-            <p>The preferred route is direct HTTPS over Tailscale or another private network. Standard TLS validation remains mandatory. Certificate pinning is optional and needs a rotation and recovery plan.</p>
-            <h3>Abuse cases</h3><ul><li><strong>Stolen unlocked phone:</strong> short auto-lock, Face ID on return, optional re-authentication for approvals, protected local data.</li><li><strong>Token in backup:</strong> device-only Keychain accessibility; credentials excluded from backups.</li><li><strong>Malicious notification:</strong> no message body and no approval action in the notification.</li><li><strong>Prompt-induced action:</strong> approval detail comes from normalized trusted fields, not model-authored prose alone.</li><li><strong>Log leakage:</strong> allowlisted fields and central redaction; never write headers or raw event dumps.</li><li><strong>Duplicate send:</strong> use a verified idempotency key or reconcile before retry.</li><li><strong>Snapshot exposure:</strong> obscure the app-switcher snapshot and privacy-mark sensitive views where practical.</li></ul>
-            <p class="callout">The gateway should issue a scoped, revocable mobile credential instead of reusing an administrator secret. If that capability does not exist, the first release must state the exposure and make revocation easy.</p>
-          </section>
-
-          <section id="delivery">
-            <div class="section-kicker">07 · Delivery</div><h2>Prove the contract before building the surface.</h2>
-            <h3>Discovery spike</h3><ol><li>Inventory supported authentication and capability discovery.</li><li>Capture list, create, send, stream, tool, approval, completion, cancel, and reconnect lifecycles.</li><li>Validate framing, heartbeat, ordering, replay cursor, and terminal events for WebSocket or SSE.</li><li>Test attachment upload and voice-note representation.</li><li>Determine pagination, errors, idempotency, versioning, and token revocation.</li><li>Build a fixture gateway from sanitized captures for deterministic tests.</li></ol>
-            <h3>Milestones</h3>
-            <table class="scope-table"><thead><tr><th>Phase</th><th>Work</th><th>Exit</th></tr></thead><tbody><tr><td>0 · Contract</td><td>Auth, session, stream, approval, media, reconnect</td><td>Contract tests pass against controlled gateway and fixtures</td></tr><tr><td>1 · Secure shell</td><td>Navigation, lock, Keychain, settings, cache</td><td>Storage inspection finds no token outside Keychain</td></tr><tr><td>2 · Chat</td><td>Sessions, transcript, Markdown, tools, reconnect</td><td>Network loss recovers without duplicate or false completion</td></tr><tr><td>3 · Action</td><td>Approvals, attachments, voice</td><td>Decisions read back; media works within verified limits</td></tr><tr><td>4 · Pilot</td><td>Accessibility, redaction, threat review, TestFlight</td><td>MVP criteria pass on physical devices</td></tr></tbody></table>
-            <h3>Open questions</h3><ul><li>Can the gateway issue a scoped and revocable mobile credential?</li><li>Are approvals durable and queryable after reconnect?</li><li>Does event replay expose a cursor or sequence number?</li><li>Which attachment limits and MIME types are advertised?</li><li>Is a voice note sent as audio, transcribed, or both?</li><li>Which tool fields are safe and useful to display?</li><li>Is foreground reconciliation enough for MVP notifications?</li></ul>
-          </section>
-
-          <section id="acceptance">
-            <div class="section-kicker">08 · Acceptance</div><h2>The MVP is done when these are true.</h2>
-            <ol class="criteria"><li>A fresh install configures an HTTPS gateway without writing a token outside Keychain.</li><li>Face ID or device passcode is required according to the chosen lock policy.</li><li>Ren can list, create, resume, and search sessions.</li><li>A reply streams progressively and settles into authoritative final state.</li><li>Routine tools stay compact; sanitized detail is available on demand.</li><li>Consequential work pauses for explicit approval or denial. Timeout and backgrounding cannot approve.</li><li>The app reads gateway state before reporting approval completion.</li><li>Photos, files, and voice notes can be previewed, sent, safely retried, and removed locally.</li><li>Airplane mode, route change, gateway restart, and app suspension do not create duplicate messages or false success.</li><li>Notifications, snapshots, logs, cache, and diagnostics reveal no token or sensitive message text by default.</li><li>VoiceOver, accessibility text sizes, reduced motion, both appearances, and 44-point targets pass manual review.</li><li>Settings can replace or revoke the credential, lock immediately, and erase local data.</li><li>The binary contains no analytics SDK or vendor relay.</li><li>Contract tests cover implemented events and fail clearly on incompatible versions.</li></ol>
-          </section>
-
-          <section id="release">
-            <div class="section-kicker">09 · Release</div><h2>Private pilot first.</h2>
-            <ol><li>Develop against the fixture gateway.</li><li>Test on physical devices over a private network with a dedicated revocable token.</li><li>Review Keychain policy, transport, redaction, approval integrity, and local storage.</li><li>Run a small TestFlight pilot for Ren. Keep crash reporting off unless a reviewed redacted path is added.</li><li>Fix pilot failures and freeze the first adapter contract.</li><li>Use private distribution first. Broader release waits for safe gateway onboarding and revocation.</li></ol>
-            <p>Rollback: expire the mobile token, remove the TestFlight build, and erase app data. Gateway access must never depend on the phone client.</p>
-            <h3>Verified development environment</h3><ul><li>Xcode 26.4.1, build 17E202</li><li>Apple Swift 6.3.1</li><li>iOS 26.4 simulator runtime</li><li>Claude Code 2.1.314 authenticated through Claude Max</li></ul>
-            <p>These checks establish that the Mac can support a later native build. They do not establish gateway compatibility or production readiness.</p>
-          </section>
-        </article>
-        <aside class="doc-aside"><div class="aside-card"><h3>Source document</h3><p>The complete text version includes numbered functional requirements, implementation notes, and the same contract boundary.</p><a href="PRD.md">OPEN PRD.MD ↗</a></div></aside>
       </div>
     </div>
-  </main>
+  </div>
+</section>
 
-  <footer><span>Hermes for iPhone · product and interaction concept</span><span>No credentials · no analytics · no network calls</span></footer>
+<section class="doc" id="product" aria-labelledby="doc-title">
+  <div class="kicker">Product summary</div>
+  <h2 id="doc-title">A native home for recurring work, with chat as the front door.</h2>
+  <p>The app connects to one Hermes Agent gateway the owner runs. Briefings stay read-only. Anything consequential pauses for an explicit decision. The Knowledge Map shows what Hermes believes, where each belief came from, how confident it is, and who can see it, and lets the owner correct or remove it.</p>
+  <p class="callout"><b>Contract boundary.</b> Hermes Agent's API server documents chat, responses, runs with SSE events and approvals, sessions, and scheduled jobs. It does not document structured UI blocks, learning records, shopping offers, or a knowledge-graph API. Those surfaces need either a verified gateway capability or a client convention agreed in discovery. This page invents no endpoints. See <a href="PRD.md">PRD.md</a> for the full mapping and the open questions.</p>
+  <div class="doc-grid">
+    <article class="doc-card"><h3>Structured blocks</h3><p>Typed, versioned content (lesson, flag, product, comparison, briefing, approval, graph). Every block carries plain-text fallback. Unknown types render as text and are never dropped.</p></article>
+    <article class="doc-card"><h3>Governed memory</h3><p>Each node has provenance, confidence, privacy class, and correction state. Deletion is a tombstone the gateway must confirm, not just a hidden node.</p></article>
+    <article class="doc-card"><h3>Private by construction</h3><p>Token in Keychain, Face ID gate, TLS over a private route, no vendor relay, no analytics, redacted notifications.</p></article>
+  </div>
+  <h3>Block envelope (proposed client contract)</h3>
+<pre class="schema">ContentBlock { type, version, id, fallbackText, provenance[],
+               sensitivity, payload }
+type ∈ lesson | flagQuiz | product | comparison | briefing
+     | approval | graphPatch | citation
+Unknown type or version → render fallbackText. Never discard.</pre>
+  <p>Read <a href="PRD.md">the full PRD</a> for architecture, governance, offline behavior, milestones, risks, and acceptance criteria.</p>
+</section>
+</main>
+<footer><span>Hermes for iPhone · public, sanitized product artifact</span><span>No credentials · no analytics · no network requests</span></footer>
 
-  <script>
-    (() => {
-      const screens = [...document.querySelectorAll('.screen')];
-      const tabs = [...document.querySelectorAll('.flow-btn')];
-      const approvalSheet = document.getElementById('approvalSheet');
-      const composerShell = document.getElementById('composerShell');
-      let lastScreen = 'lock';
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-      function showScreen(name, mode) {
-        const base = (name === 'approval' || name === 'compose') ? 'chat' : name;
-        lastScreen = base;
-        screens.forEach(screen => screen.classList.toggle('active', screen.dataset.view === base));
-        tabs.forEach(tab => {
-          const active = tab.dataset.screen === name;
-          tab.classList.toggle('active', active);
-          tab.setAttribute('aria-selected', String(active));
-        });
-        approvalSheet.classList.toggle('open', name === 'approval');
-        approvalSheet.setAttribute('aria-hidden', String(name !== 'approval'));
-        composerShell.classList.toggle('attach-open', name === 'compose' || mode === 'attach');
-        composerShell.classList.remove('voice-open');
-        if (name === 'approval') document.getElementById('denyApproval').focus();
-      }
+/* ---------- toast ---------- */
+const toastEl = $('#toast'); let toastT;
+function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2600); }
 
-      tabs.forEach(tab => tab.addEventListener('click', () => showScreen(tab.dataset.screen)));
-      document.getElementById('unlockBtn').addEventListener('click', () => showScreen('sessions'));
-      document.querySelectorAll('.open-chat').forEach(btn => btn.addEventListener('click', () => showScreen('chat')));
-      document.querySelectorAll('.sessions-link').forEach(btn => btn.addEventListener('click', () => showScreen('sessions')));
-      document.querySelectorAll('.settings-link').forEach(btn => btn.addEventListener('click', () => showScreen('settings')));
-      document.getElementById('approvalAlert').addEventListener('click', () => showScreen('approval'));
-      document.getElementById('denyApproval').addEventListener('click', () => showScreen('chat'));
-      document.getElementById('approveApproval').addEventListener('click', (event) => {
-        event.currentTarget.textContent = 'Approved';
-        setTimeout(() => { event.currentTarget.textContent = 'Approve with Face ID'; showScreen('chat'); }, 650);
-      });
-      approvalSheet.addEventListener('click', event => { if (event.target === approvalSheet) showScreen(lastScreen); });
-      document.getElementById('toolCard').querySelector('button').addEventListener('click', event => {
-        const card = document.getElementById('toolCard');
-        card.classList.toggle('open');
-        event.currentTarget.setAttribute('aria-expanded', String(card.classList.contains('open')));
-      });
-      document.getElementById('attachBtn').addEventListener('click', () => composerShell.classList.toggle('attach-open'));
-      document.getElementById('voiceChoice').addEventListener('click', () => {
-        composerShell.classList.remove('attach-open');
-        composerShell.classList.add('voice-open');
-      });
-      document.getElementById('stopVoice').addEventListener('click', () => composerShell.classList.remove('voice-open'));
-      document.querySelectorAll('.toggle').forEach(toggle => toggle.addEventListener('click', () => {
-        toggle.classList.toggle('on');
-        toggle.setAttribute('aria-checked', String(toggle.classList.contains('on')));
-      }));
-      document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') {
-          approvalSheet.classList.remove('open');
-          approvalSheet.setAttribute('aria-hidden', 'true');
-          composerShell.classList.remove('attach-open', 'voice-open');
-        }
-      });
-    })();
-  </script>
+/* ---------- navigation ---------- */
+const views = $$('.view');
+const lockEl = $('#lock');
+let current = 'today';
+let locked = true;
+function show(name){
+  if (name === 'lock'){ lock(); return; }
+  if (locked) unlock(true);
+  current = name;
+  views.forEach(v => v.classList.toggle('active', v.dataset.view === name));
+  $$('.tabbtn').forEach(b => b.dataset.go === name ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current'));
+  $$('.tab').forEach(b => b.setAttribute('aria-current', String(b.dataset.go === name)));
+  closeSheets();
+  if (name === 'map' && !mapFitted) fitMap();
+}
+function lock(){ locked = true; lockEl.classList.add('show'); closeSheets(); $$('.tab').forEach(b => b.setAttribute('aria-current', String(b.dataset.go === 'lock'))); $('#unlockBtn').focus({preventScroll:true}); }
+function unlock(silent){ locked = false; lockEl.classList.remove('show'); if (!silent) show(current); }
+$('#unlockBtn').onclick = () => { unlock(); toast('Demo unlock. A real build asks LocalAuthentication.'); };
+$('#passcodeBtn').onclick = () => { unlock(); toast('Demo unlock via passcode path.'); };
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g){ show(g.dataset.go); return; }
+  const r = e.target.closest('[data-route]'); if (r){ route(r.dataset.route); }
+});
+
+/* Deep-link router for proposed hermes:// routes (demo only) */
+function route(path){
+  const [p, q] = path.split('?');
+  const parts = p.split('/');
+  if (parts[0] === 'learn'){ show('learn'); selectPane(parts[1] || 'german'); return; }
+  if (parts[0] === 'shop'){ show('shop'); return; }
+  if (parts[0] === 'map'){ show('map'); if (parts[1] === 'node' && parts[2]) focusNode(parts[2]); return; }
+  if (parts[0] === 'chat'){
+    show('chat');
+    if (q && q.includes('prompt=business')){ const t = $('#msgInput'); t.value = 'Summarize what is open for the Anotar release notes.'; t.focus(); }
+    return;
+  }
+  show('today');
+}
+
+/* ---------- network simulation ---------- */
+let offline = false;
+const netStatus = $('#netStatus'), netBanner = $('#netBanner');
+function setOffline(v){
+  offline = v;
+  $('#offlineSw').setAttribute('aria-checked', String(v));
+  netStatus.textContent = v ? '○ offline · demo' : '● private route · demo';
+  netStatus.classList.toggle('off', v);
+  $('#routeVal').textContent = v ? 'Unreachable · demo' : 'Private · demo';
+  netBanner.classList.remove('good');
+  if (v){ netBanner.textContent = 'Offline (simulated). Drafts stay local; sends wait for reconnect.'; netBanner.classList.add('show'); }
+  else {
+    const n = flushQueue();
+    netBanner.textContent = n ? `Reconnected. Reconciled ${n} queued message${n>1?'s':''} (demo).` : 'Reconnected (demo).';
+    netBanner.classList.add('show','good');
+    setTimeout(() => { if (!offline) netBanner.classList.remove('show','good'); }, 2600);
+  }
+}
+
+/* ---------- today ---------- */
+function updateRem(){ const open = $$('#reminders .rem:not(.done)').length; $('#remCount').textContent = `${open} open`; }
+$$('#reminders .check').forEach(b => b.onclick = () => {
+  const row = b.closest('.rem'); row.classList.toggle('done');
+  const d = row.classList.contains('done'); b.setAttribute('aria-pressed', String(d)); b.querySelector('i').textContent = d ? '✓' : '';
+  updateRem(); toast(d ? 'Marked done (demo, this page only).' : 'Reopened (demo).');
+});
+$$('[data-toggle]').forEach(b => b.onclick = () => {
+  const el = document.getElementById(b.dataset.toggle); const o = el.classList.toggle('open');
+  b.setAttribute('aria-expanded', String(o)); b.textContent = o ? 'Hide' : (b.dataset.toggle === 'inboxList' ? 'Show summaries' : 'Show agenda');
+});
+
+/* ---------- chat ---------- */
+const transcript = $('#transcript'), input = $('#msgInput');
+let pending = []; let queue = []; let attachN = 0;
+$('#toolCard button').onclick = e => { const c = $('#toolCard'); c.classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded', String(c.classList.contains('open'))); };
+$('#fbToggle').onclick = e => { const b = $('#lessonBlock'); b.classList.toggle('showfb'); const o = b.classList.contains('showfb'); e.currentTarget.setAttribute('aria-expanded', String(o)); e.currentTarget.textContent = o ? 'Hide fallback' : 'Text fallback'; };
+const attachPanel = $('#attachPanel'), voiceBar = $('#voiceBar');
+$('#attachBtn').onclick = e => { const o = attachPanel.classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded', String(o)); voiceStop(false); };
+function renderPending(){
+  const box = $('#pendingChips');
+  box.innerHTML = pending.map((a,i) => `<span class="chip">${esc(a)}<button type="button" data-rm="${i}" aria-label="Remove ${esc(a)}">×</button></span>`).join('');
+  box.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { pending.splice(+b.dataset.rm,1); renderPending(); toast('Attachment removed before send.'); });
+}
+$$('[data-attach]').forEach(b => b.onclick = () => {
+  attachN++; pending.push(b.dataset.attach === 'photo' ? `demo-photo-${attachN}.jpg` : `demo-notes-${attachN}.pdf`);
+  attachPanel.classList.remove('open'); $('#attachBtn').setAttribute('aria-expanded','false'); renderPending();
+  toast(b.dataset.attach === 'photo' ? 'Demo photo added. Real build: PhotosPicker, selected-only.' : 'Demo file added. Gateway file upload is unsupported per Hermes docs; see PRD.');
+});
+let vT = null, vS = 0;
+$('#voiceBtn').onclick = () => { attachPanel.classList.remove('open'); voiceBar.classList.add('open'); vS = 0; $('#voiceTime').textContent = 'Recording (demo) 0:00'; clearInterval(vT); vT = setInterval(() => { vS++; $('#voiceTime').textContent = `Recording (demo) 0:${String(vS).padStart(2,'0')}`; if (vS >= 59) voiceStop(true); }, 1000); };
+function voiceStop(keep){ if (!voiceBar.classList.contains('open')) return; clearInterval(vT); voiceBar.classList.remove('open'); if (keep){ pending.push(`voice-note 0:${String(Math.max(vS,1)).padStart(2,'0')} (demo)`); renderPending(); toast('No microphone was used. This is a simulated recording.'); } }
+$('#voiceStop').onclick = () => voiceStop(true);
+$('#voiceCancel').onclick = () => { voiceStop(false); toast('Recording discarded.'); };
+function addMsg(html, cls){ const d = document.createElement('div'); d.className = 'msg ' + cls; d.innerHTML = html; transcript.appendChild(d); transcript.scrollTop = transcript.scrollHeight; return d; }
+const replies = [
+  'Demo reply: noted. In the real app this streams from the gateway and settles to the stored final message.',
+  'Demo reply: I would check your saved preferences before suggesting anything. No model was called here.',
+  'Demo reply: added to the planning thread. Fixture text only.'
+];
+let ri = 0;
+function deliver(el){
+  const st = el.querySelector('.dstate'); st.textContent = 'Sending…'; st.classList.remove('q');
+  setTimeout(() => { st.textContent = 'Sent · demo'; addMsg(`<div class="meta">Hermes · fixture reply</div>${esc(replies[ri++ % replies.length])}`, 'hermes'); }, 500);
+}
+function flushQueue(){ const n = queue.length; queue.forEach(deliver); queue = []; return n; }
+function send(){
+  const text = input.value.trim(); if (!text && !pending.length) return;
+  const chips = pending.length ? `<div class="chips">${pending.map(a => `<span class="chip" style="padding-right:10px">${esc(a)}</span>`).join('')}</div>` : '';
+  const el = addMsg(`${esc(text)}${chips}<span class="dstate"></span>`, 'me');
+  input.value = ''; pending = []; renderPending();
+  if (offline){ const st = el.querySelector('.dstate'); st.textContent = 'Waiting for connection'; st.classList.add('q'); queue.push(el); }
+  else deliver(el);
+}
+$('#sendBtn').onclick = send;
+input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
+
+const apSheet = $('#apSheet'); let apReturn = null;
+function openApproval(){ apReturn = document.activeElement; apSheet.classList.add('open'); $('#apDeny').focus(); }
+function closeSheets(){
+  const wasOpen = [apSheet, cmpSheet].some(s => s.classList.contains('open'));
+  apSheet.classList.remove('open'); cmpSheet.classList.remove('open');
+  if (wasOpen && apReturn && document.contains(apReturn)) apReturn.focus({preventScroll:true});
+  apReturn = null;
+}
+$('#approvalAlert').onclick = () => { if (!$('#approvalAlert').classList.contains('done')) openApproval(); };
+$('#apDeny').onclick = () => { setApproval('Denied', 'No job was created. Hermes continues without it.'); };
+$('#apApprove').onclick = e => {
+  const b = e.currentTarget; b.disabled = true; b.textContent = 'Checking Face ID (demo)…';
+  setTimeout(() => { b.disabled = false; b.textContent = 'Approve with Face ID (demo)'; setApproval('Approved (demo)', 'Real build confirms by reading run state back from the gateway.'); }, 700);
+};
+function setApproval(word, note){ const a = $('#approvalAlert'); a.classList.add('done'); a.innerHTML = `<span><strong>${esc(word)}</strong>${esc(note)}</span>`; closeSheets(); a.focus(); }
+apSheet.addEventListener('click', e => { if (e.target === apSheet) closeSheets(); });
+
+/* ---------- learn ---------- */
+function selectPane(name){
+  $$('.seg [role=tab]').forEach(t => { const on = t.dataset.pane === name; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+  $$('.pane').forEach(p => p.classList.toggle('active', p.id === 'p-' + name));
+}
+$$('.seg [role=tab]').forEach((t, i, all) => {
+  t.onclick = () => selectPane(t.dataset.pane);
+  t.onkeydown = e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){ const n = all[(i + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length]; n.focus(); selectPane(n.dataset.pane); } };
+});
+const GERMAN = [
+  ['zuverlässig','reliable · adjective','Die App muss zuverlässig sein.','The app has to be reliable.'],
+  ['die Reise','the trip · noun, feminine','Die Reise nach Lissabon war entspannt.','The trip to Lisbon was relaxed.'],
+  ['der Flughafen','the airport · noun, masculine','Wir treffen uns am Flughafen.','We will meet at the airport.'],
+  ['sich verbessern','to improve (oneself) · verb','Mein Aufschlag hat sich verbessert.','My serve has improved.'],
+  ['die Erfahrung','the experience · noun, feminine','Ich habe viel Erfahrung mit Apps.','I have a lot of experience with apps.'],
+  ['gemütlich','cozy, comfortable · adjective','Das Café ist sehr gemütlich.','The café is very cozy.'],
+  ['ausprobieren','to try out · separable verb','Ich probiere die neue Funktion aus.','I am trying out the new feature.'],
+  ['die Verspätung','the delay · noun, feminine','Der Flug hat eine Stunde Verspätung.','The flight is one hour late.']
+];
+const LABEL = {1:'New', 2:'Forgot', 3:'Known'};
+let gi = 0; let ratings = [];
+function renderGerman(){
+  const done = gi >= GERMAN.length;
+  $('#germanCard').hidden = done; $('#germanDone').hidden = !done;
+  if (!done){ const [w,g,ex,tr] = GERMAN[gi]; $('#gWord').textContent = w; $('#gGloss').textContent = g; $('#gEx').textContent = ex; $('#gExTr').textContent = tr; $('#gProgress').textContent = `${gi+1} / ${GERMAN.length}`; }
+  const c = {1:0,2:0,3:0}; ratings.forEach(r => c[r.r]++);
+  $('#gTally').innerHTML = [1,2,3].map(k => `<span class="badge">${k} · ${LABEL[k]}: ${c[k]}</span>`).join('');
+  $('#todayLearnBadge').textContent = `${ratings.length} rated`;
+}
+function rate(r){
+  if (gi >= GERMAN.length) return;
+  ratings.push({w: GERMAN[gi][0], r}); gi++; renderGerman();
+  toast(gi < GERMAN.length ? `Rated ${r} · ${LABEL[r]}. Next unseen word.` : `Rated ${r} · ${LABEL[r]}. Set complete.`);
+}
+$$('.rate').forEach(b => b.onclick = () => rate(+b.dataset.rate));
+$('#gReset').onclick = () => { gi = 0; ratings = []; renderGerman(); };
+document.addEventListener('keydown', e => {
+  if (locked || current !== 'learn' || !$('#p-german').classList.contains('active')) return;
+  if (e.target.matches('input,textarea')) return;
+  if (['1','2','3'].includes(e.key)) { e.preventDefault(); rate(+e.key); }
+});
+function speak(text, lang, noteEl){
+  if (!('speechSynthesis' in window)) { toast('No speech voice in this browser. Production audio is TBD in discovery.'); return; }
+  speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = .9; speechSynthesis.speak(u);
+  toast(`Playing with the browser voice (${lang}). Demo only.`);
+}
+$('#gAudio').onclick = () => { if (gi < GERMAN.length) speak(GERMAN[gi][2], 'de-DE'); };
+
+const MANDARIN = [
+  ['你好','nǐ hǎo','hello','你好，我叫 Ren。'],
+  ['学习','xuéxí','to study, to learn','我学习中文。'],
+  ['飞机','fēijī','airplane','飞机很快。'],
+  ['网球','wǎngqiú','tennis','我喜欢打网球。'],
+  ['旅行','lǚxíng','to travel; trip','我们去旅行。'],
+  ['工作','gōngzuò','work; to work','我今天工作。']
+];
+let mi = 0;
+function renderMandarin(){ const [h,p,m,ex] = MANDARIN[mi]; $('#mHanzi').textContent = h; $('#mPinyin').textContent = p; $('#mMeaning').textContent = m; $('#mEx').textContent = ex; $('#mProgress').textContent = `${mi+1} / ${MANDARIN.length}`; $('#mReveal').classList.remove('open'); $('#mShow').setAttribute('aria-expanded','false'); }
+$('#mShow').onclick = e => { const o = $('#mReveal').classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded', String(o)); };
+$('#mNext').onclick = () => { mi = (mi + 1) % MANDARIN.length; renderMandarin(); };
+$('#mAudio').onclick = () => speak(MANDARIN[mi][0], 'zh-CN');
+
+/* Simplified geometric flags drawn inline (no external assets). */
+const FLAGS = [
+  {en:'Germany', pt:'Alemanha', loc:'Central Europe · capital Berlin', iso:'DE / DEU', alt:['deutschland'],
+   svg:'<rect width="3" height="1" fill="#000"/><rect y="1" width="3" height="1" fill="#D00"/><rect y="2" width="3" height="1" fill="#FFCE00"/>', vb:'0 0 3 3'},
+  {en:'Japan', pt:'Japão', loc:'East Asia · capital Tokyo', iso:'JP / JPN', alt:['nippon'],
+   svg:'<rect width="3" height="2" fill="#fff"/><circle cx="1.5" cy="1" r=".6" fill="#BC002D"/>', vb:'0 0 3 2'},
+  {en:'Italy', pt:'Itália', loc:'Southern Europe · capital Rome', iso:'IT / ITA', alt:['italia'],
+   svg:'<rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#CE2B37"/>', vb:'0 0 3 2'},
+  {en:'Ukraine', pt:'Ucrânia', loc:'Eastern Europe · capital Kyiv', iso:'UA / UKR', alt:[],
+   svg:'<rect width="3" height="1" fill="#0057B7"/><rect y="1" width="3" height="1" fill="#FFD700"/>', vb:'0 0 3 2'},
+  {en:'Sweden', pt:'Suécia', loc:'Northern Europe · capital Stockholm', iso:'SE / SWE', alt:['sverige'],
+   svg:'<rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/>', vb:'0 0 16 10'},
+  {en:'Nigeria', pt:'Nigéria', loc:'West Africa · capital Abuja', iso:'NG / NGA', alt:[],
+   svg:'<rect width="1" height="2" fill="#008751"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#008751"/>', vb:'0 0 3 2'},
+  {en:'Austria', pt:'Áustria', loc:'Central Europe · capital Vienna', iso:'AT / AUT', alt:['osterreich'],
+   svg:'<rect width="3" height="2" fill="#ED2939"/><rect y=".667" width="3" height=".667" fill="#fff"/>', vb:'0 0 3 2'},
+  {en:'Switzerland', pt:'Suíça', loc:'Central Europe · capital Bern', iso:'CH / CHE', alt:['schweiz','suisse'],
+   svg:'<rect width="32" height="32" fill="#D52B1E"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/>', vb:'0 0 32 32'}
+];
+let fi = 0, fTried = 0, fRight = 0, fRevealed = false;
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+function renderFlag(){
+  const f = FLAGS[fi];
+  $('#flagBox').innerHTML = `<svg viewBox="${f.vb}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Flag to identify, answer hidden"><title>Flag to identify</title>${f.svg}</svg>`;
+  $('#flagGuess').value = ''; $('#flagReveal').classList.remove('open'); fRevealed = false; $('#flagCheck').disabled = false;
+}
+function revealFlag(){
+  if (fRevealed) return; fRevealed = true;
+  const f = FLAGS[fi], g = norm($('#flagGuess').value);
+  const ok = g && [f.en, f.pt, ...f.alt].map(norm).includes(g);
+  fTried++; if (ok) fRight++;
+  const v = $('#flagVerdict'); v.className = 'verdict ' + (ok ? 'ok' : 'no');
+  v.textContent = !g ? 'Revealed without a guess' : ok ? 'Correct' : `Not quite: “${$('#flagGuess').value.trim()}”`;
+  $('#fEn').textContent = f.en; $('#fPt').textContent = f.pt; $('#fLoc').textContent = f.loc; $('#fIso').textContent = f.iso;
+  $('#flagReveal').classList.add('open'); $('#fScore').textContent = `${fRight} / ${fTried}`; $('#flagCheck').disabled = true;
+}
+$('#flagCheck').onclick = revealFlag;
+$('#flagGuess').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); revealFlag(); } });
+$('#flagNext').onclick = () => { fi = (fi + 1) % FLAGS.length; renderFlag(); $('#flagGuess').focus(); };
+
+/* ---------- shop ---------- */
+const PRODUCTS = [
+  {id:'a', name:'Demo Aero ANC', price:'R$ 1.899', merchant:'Demo Merchant A', delivery:'2–4 days (estimate)', specs:['Over-ear, folding','ANC · 30 h battery (claimed)','USB-C · 250 g'], color:'#9aa0a6', shape:'over'},
+  {id:'b', name:'Demo Lumen Buds', price:'R$ 1.249', merchant:'Demo Merchant B', delivery:'Not stated', specs:['In-ear, case','ANC · 8 h + case (claimed)','IPX4 · 6 g each'], color:'#d8a651', shape:'buds'},
+  {id:'c', name:'Demo Studio 45', price:'R$ 1.649', merchant:'Demo Merchant C', delivery:'5–8 days (estimate)', specs:['Over-ear, closed back','Wired + Bluetooth','Detachable cable · 290 g'], color:'#6f8f84', shape:'over'},
+  {id:'d', name:'Demo Glide On-Ear', price:'R$ 899', merchant:'Demo Merchant A', delivery:'3–5 days (estimate)', specs:['On-ear, compact','No ANC · 40 h (claimed)','USB-C · 180 g'], color:'#b9826b', shape:'on'}
+];
+const shopState = {fav:new Set(), elim:new Set(), cmp:new Set(), favOnly:false};
+function productSVG(p){
+  const c = p.color;
+  if (p.shape === 'buds') return `<svg viewBox="0 0 104 104" role="img" aria-label="Illustrative drawing of ${esc(p.name)}, not a product photo"><rect x="22" y="56" width="60" height="30" rx="14" fill="#2a2925" stroke="#4a463c"/><ellipse cx="38" cy="40" rx="11" ry="13" fill="${c}"/><rect x="34" y="48" width="8" height="18" rx="4" fill="${c}"/><ellipse cx="66" cy="40" rx="11" ry="13" fill="${c}"/><rect x="62" y="48" width="8" height="18" rx="4" fill="${c}"/><text x="52" y="98" fill="#7e786e" font-size="7" text-anchor="middle" font-family="monospace">ILLUSTRATIVE</text></svg>`;
+  const cup = p.shape === 'on' ? 13 : 17;
+  return `<svg viewBox="0 0 104 104" role="img" aria-label="Illustrative drawing of ${esc(p.name)}, not a product photo"><path d="M22 60 V44 a30 30 0 0 1 60 0 V60" fill="none" stroke="${c}" stroke-width="6" stroke-linecap="round"/><rect x="${22-cup/2}" y="52" width="${cup}" height="28" rx="7" fill="${c}"/><rect x="${82-cup/2}" y="52" width="${cup}" height="28" rx="7" fill="${c}"/><rect x="${22-cup/2+3}" y="56" width="${cup-6}" height="20" rx="5" fill="#000" opacity=".25"/><rect x="${82-cup/2+3}" y="56" width="${cup-6}" height="20" rx="5" fill="#000" opacity=".25"/><text x="52" y="98" fill="#7e786e" font-size="7" text-anchor="middle" font-family="monospace">ILLUSTRATIVE</text></svg>`;
+}
+function renderShop(){
+  const list = PRODUCTS.filter(p => !shopState.favOnly || shopState.fav.has(p.id));
+  const active = list.filter(p => !shopState.elim.has(p.id)), gone = list.filter(p => shopState.elim.has(p.id));
+  const card = p => {
+    const f = shopState.fav.has(p.id), e = shopState.elim.has(p.id), c = shopState.cmp.has(p.id);
+    return `<article class="card prod${e?' elim':''}" aria-label="${esc(p.name)}">${productSVG(p)}<div><span class="label">${esc(p.merchant)} · unverified</span><h5>${esc(p.name)}</h5><div class="price">${esc(p.price)} <span class="unv">price unverified</span></div><ul class="specs">${p.specs.map(s=>`<li>${esc(s)}</li>`).join('')}<li>Delivery: ${esc(p.delivery)} <span class="unv">unverified</span></li></ul></div>
+      <div class="pacts"><button type="button" data-act="fav" data-id="${p.id}" aria-pressed="${f}">${f?'♥ Saved':'♡ Save'}</button><button type="button" data-act="elim" data-id="${p.id}" aria-pressed="${e}">${e?'↺ Restore':'× Eliminate'}</button><button type="button" data-act="cmp" data-id="${p.id}" aria-pressed="${c}" ${e?'disabled':''}>${c?'✓ Comparing':'Compare'}</button></div></article>`;
+  };
+  let html = `<p class="label" style="margin:4px 4px 10px">4 fixture products · fictional brands · illustrative drawings</p>`;
+  html += active.map(card).join('') || `<div class="card"><p>No products here. ${shopState.favOnly ? 'Save one, or turn off “Favorites only”.' : 'Restore an eliminated item.'}</p></div>`;
+  if (gone.length) html += `<div class="sec"><h4>Eliminated</h4><span>${gone.length}</span></div>` + gone.map(card).join('');
+  html += `<div class="card"><span class="label">About these offers</span><p>Prices, specs, merchants, and delivery are fixtures. A real offer block carries source URL, retrieval time, and verification state. Hermes never buys; checkout stays with the merchant.</p></div>`;
+  $('#productList').innerHTML = html;
+  const n = shopState.cmp.size, b = $('#cmpOpen'); b.textContent = `Compare (${n})`; b.disabled = n < 2;
+  $('#favFilter').setAttribute('aria-pressed', String(shopState.favOnly));
+  $('#favFilter').textContent = shopState.favOnly ? '♥ Favorites only' : '♡ Favorites only';
+}
+$('#productList').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const id = b.dataset.id, act = b.dataset.act, p = PRODUCTS.find(x => x.id === id);
+  if (act === 'fav'){ shopState.fav.has(id) ? shopState.fav.delete(id) : shopState.fav.add(id); toast(shopState.fav.has(id) ? `Saved ${p.name} (demo).` : `Removed from favorites.`); }
+  if (act === 'elim'){ if (shopState.elim.has(id)) shopState.elim.delete(id); else { shopState.elim.add(id); shopState.cmp.delete(id); } toast(shopState.elim.has(id) ? `${p.name} eliminated. Restore anytime.` : `${p.name} restored.`); }
+  if (act === 'cmp'){
+    if (shopState.cmp.has(id)) shopState.cmp.delete(id);
+    else if (shopState.cmp.size >= 3){ toast('Compare up to 3 at a time.'); return; }
+    else shopState.cmp.add(id);
+  }
+  renderShop();
+  const again = $(`#productList [data-act="${act}"][data-id="${id}"]`); if (again) again.focus({preventScroll:true});
+});
+$('#favFilter').onclick = () => { shopState.favOnly = !shopState.favOnly; renderShop(); };
+const cmpSheet = $('#cmpSheet');
+$('#cmpOpen').onclick = () => {
+  const ps = PRODUCTS.filter(p => shopState.cmp.has(p.id));
+  const rows = [['Price', p => `${p.price}<br><span class="unv">unverified</span>`], ['Merchant', p => p.merchant], ['Delivery', p => p.delivery], ['Form', p => p.specs[0]], ['Audio', p => p.specs[1]], ['Other', p => p.specs[2]]];
+  $('#cmpBody').innerHTML = `<table class="cmp"><thead><tr><th scope="col"><span class="sr">Attribute</span></th>${ps.map(p=>`<th scope="col">${esc(p.name)}</th>`).join('')}</tr></thead><tbody>${rows.map(([k,f]) => `<tr><th scope="row">${k}</th>${ps.map(p=>`<td>${k==='Price'?f(p):esc(f(p))}</td>`).join('')}</tr>`).join('')}</tbody></table><p style="margin-top:10px">Same-row values come from fixtures. “Claimed” means the seller's spec, not a test result.</p>`;
+  apReturn = document.activeElement; cmpSheet.classList.add('open'); $('#cmpClose').focus();
+};
+$('#cmpClose').onclick = closeSheets;
+cmpSheet.addEventListener('click', e => { if (e.target === cmpSheet) closeSheets(); });
+
+/* ---------- knowledge map ---------- */
+const CAT = {
+  person:{label:'Person', color:'#d8a651'}, work:{label:'Work', color:'#8db4c2'}, learning:{label:'Learning', color:'#86bb90'},
+  travel:{label:'Travel', color:'#c79bd6'}, fitness:{label:'Fitness', color:'#e0857a'}, interest:{label:'Interests', color:'#c9b98a'}
+};
+const NODES0 = [
+  {id:'ren', t:'Ren', cat:'person', x:200, y:320, s:'Demo persona: Brazilian software entrepreneur who builds consumer apps.', prov:'Profile set up by the owner · demo://profile', conf:.99, priv:'personal', upd:'2026-10-01'},
+  {id:'genio', t:'Genio Tech', cat:'work', x:290, y:190, s:'Ren\'s company. Builds AI apps: Genio IA, Anotar, GlipOne.', prov:'Stated in chat · demo://chat/0912', conf:.95, priv:'public', upd:'2026-10-12'},
+  {id:'genioia', t:'Genio IA', cat:'work', x:300, y:30, s:'AI assistant app by Genio Tech. Public product.', prov:'Public listing summary · demo://notes/products', conf:.9, priv:'public', upd:'2026-10-12'},
+  {id:'anotar', t:'Anotar', cat:'work', x:340, y:110, s:'Meeting notes app by Genio Tech. Public product.', prov:'Public listing summary · demo://notes/products', conf:.9, priv:'public', upd:'2026-10-12'},
+  {id:'glipone', t:'GlipOne', cat:'work', x:370, y:260, s:'App by Genio Tech. Public product.', prov:'Public listing summary · demo://notes/products', conf:.85, priv:'public', upd:'2026-10-12'},
+  {id:'learning', t:'Learning', cat:'learning', x:90, y:190, s:'Daily language and geography drills.', prov:'Routine created in chat · demo://routine/daily-learning', conf:.92, priv:'personal', upd:'2026-10-30'},
+  {id:'german', t:'German A2', cat:'learning', x:40, y:110, s:'Studying German at A2. Target words rated 1 new, 2 forgot, 3 known.', prov:'Self-reported level · demo://chat/0402', conf:.8, priv:'personal', upd:'2026-10-30'},
+  {id:'mandarin', t:'Mandarin A1', cat:'learning', x:60, y:30, s:'Beginning Mandarin: characters, pinyin, meaning.', prov:'Self-reported level · demo://chat/0402', conf:.75, priv:'personal', upd:'2026-10-28'},
+  {id:'flags', t:'Flags', cat:'learning', x:170, y:110, s:'Flag challenge: guess, then see EN/PT name, location, ISO code.', prov:'Routine settings · demo://routine/flags', conf:.9, priv:'personal', upd:'2026-10-29'},
+  {id:'travel', t:'Travel', cat:'travel', x:70, y:410, s:'Prefers quiet trips that fit around tennis and work blocks. Inferred, not confirmed.', prov:'Inferred from 3 demo chats · demo://memory/travel', conf:.6, priv:'personal', upd:'2026-10-20'},
+  {id:'aviation', t:'Aviation', cat:'interest', x:40, y:490, s:'Interested in aviation and aircraft.', prov:'Stated in chat · demo://chat/0715', conf:.85, priv:'personal', upd:'2026-09-15'},
+  {id:'fitness', t:'Fitness', cat:'fitness', x:200, y:490, s:'Routine fixture: two court sessions and one mobility day per week.', prov:'Routine created in chat · demo://routine/fitness', conf:.7, priv:'personal', upd:'2026-10-25'},
+  {id:'tennis', t:'Tennis', cat:'fitness', x:290, y:570, s:'Plays tennis. Used for scheduling and gear research.', prov:'Stated in chat · demo://chat/0801', conf:.9, priv:'personal', upd:'2026-10-25'},
+  {id:'interests', t:'Interests', cat:'interest', x:300, y:410, s:'Tennis, aviation, travel, fitness, design.', prov:'Owner-edited list · demo://profile/interests', conf:.95, priv:'personal', upd:'2026-10-05'},
+  {id:'design', t:'Design', cat:'interest', x:360, y:490, s:'Likes functional, modern design. Shapes shopping shortlists.', prov:'Inferred from feedback · demo://memory/design', conf:.65, priv:'personal', upd:'2026-10-18'}
+];
+const EDGES = [['ren','genio'],['genio','genioia'],['genio','anotar'],['genio','glipone'],['ren','learning'],['learning','german'],['learning','mandarin'],['learning','flags'],['ren','travel'],['travel','aviation'],['ren','fitness'],['fitness','tennis'],['ren','interests'],['interests','tennis'],['interests','aviation'],['interests','design'],['interests','travel'],['interests','fitness']];
+let NODES = []; let selected = null;
+const mapState = {cats:new Set(Object.keys(CAT)), personal:true};
+const graph = $('#graph'), svg = $('#edges'), wrap = $('#mapWrap'), insp = $('#inspector');
+function resetNodes(){ NODES = NODES0.map(n => ({...n, state:'active', corrected:false})); }
+function visible(n){ if (n.state === 'forgotten') return false; if (!mapState.cats.has(n.cat) && n.id !== 'ren') return false; if (!mapState.personal && n.priv === 'personal' && n.id !== 'ren') return false; return true; }
+function renderFilters(){
+  $('#mapFilters').innerHTML = Object.entries(CAT).filter(([k]) => k !== 'person').map(([k,v]) => `<button class="fchip" type="button" data-cat="${k}" aria-pressed="${mapState.cats.has(k)}">${v.label}</button>`).join('');
+}
+$('#mapFilters').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; const k = b.dataset.cat; mapState.cats.has(k) ? mapState.cats.delete(k) : mapState.cats.add(k); renderFilters(); renderGraph(); });
+function renderGraph(){
+  const vis = new Set(NODES.filter(visible).map(n => n.id));
+  const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+  svg.innerHTML = EDGES.filter(([a,b]) => vis.has(a) && vis.has(b)).map(([a,b]) => `<line data-a="${a}" data-b="${b}" class="${selected && (a===selected||b===selected) ? 'hi':''}"/>`).join('');
+  graph.querySelectorAll('.node').forEach(n => n.remove());
+  NODES.filter(n => vis.has(n.id)).forEach(n => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'node' + (n.id === 'ren' ? ' core' : '') + (n.corrected ? ' corrected' : '');
+    b.dataset.id = n.id;
+    b.setAttribute('aria-pressed', String(selected === n.id));
+    b.setAttribute('aria-label', `${n.t}, ${CAT[n.cat].label}, confidence ${Math.round(n.conf*100)}%`);
+    b.innerHTML = (n.id === 'ren' ? '' : `<i style="background:${CAT[n.cat].color}" aria-hidden="true"></i>`) + esc(n.t);
+    graph.appendChild(b);
+  });
+  applyT();
+  if (selected && !vis.has(selected)) closeInspector();
+  $('#mapHint').textContent = `${vis.size} of ${NODES.length} nodes shown · drag · pinch/scroll · tap`;
+}
+function related(id){ return EDGES.filter(e => e.includes(id)).map(e => e[0] === id ? e[1] : e[0]).map(x => NODES.find(n => n.id === x)).filter(n => n && visible(n)); }
+function openInspector(id){
+  const n = NODES.find(x => x.id === id); if (!n) return;
+  selected = id; renderGraph();
+  $('#iCat').textContent = `${CAT[n.cat].label} · demo fixture`;
+  $('#iTitle').textContent = n.t; $('#iSummary').textContent = n.s;
+  $('#iProv').textContent = n.prov;
+  const pc = Math.round(n.conf*100);
+  $('#iConf').innerHTML = `<span class="conf" aria-hidden="true"><i style="width:${pc}%"></i></span>${pc}% · ${n.conf >= .85 ? 'stated or confirmed' : n.conf >= .7 ? 'likely' : 'inferred, unconfirmed'}`;
+  $('#iPriv').textContent = n.priv === 'public' ? 'Public · already public information' : 'Personal · visible in this map only, excluded from exports by default';
+  $('#iUpd').textContent = n.upd + ' (demo)';
+  $('#iState').textContent = n.corrected ? 'User-corrected (demo, local only)' : 'As learned';
+  $('#iRel').innerHTML = related(id).map(r => `<button class="relbtn" type="button" data-rel="${r.id}">${esc(r.t)}</button>`).join('') || '<span class="label">None visible</span>';
+  $('#iEdit').hidden = true; $('#iSummary').hidden = false;
+  $('#iForget').disabled = id === 'ren'; $('#iForget').title = id === 'ren' ? 'The profile root cannot be forgotten from the map' : '';
+  insp.classList.add('open');
+}
+function closeInspector(){ selected = null; insp.classList.remove('open'); svg.querySelectorAll('line.hi').forEach(l => l.classList.remove('hi')); graph.querySelectorAll('.node[aria-pressed="true"]').forEach(b => b.setAttribute('aria-pressed','false')); }
+$('#iClose').onclick = closeInspector;
+$('#iRel').addEventListener('click', e => { const b = e.target.closest('[data-rel]'); if (b) focusNode(b.dataset.rel); });
+$('#iCorrect').onclick = () => { const n = NODES.find(x => x.id === selected); $('#iText').value = n.s; $('#iEdit').hidden = false; $('#iSummary').hidden = true; $('#iText').focus(); };
+$('#iCancel').onclick = () => { $('#iEdit').hidden = true; $('#iSummary').hidden = false; };
+$('#iSave').onclick = () => {
+  const n = NODES.find(x => x.id === selected); const v = $('#iText').value.trim();
+  if (!v){ toast('Summary cannot be empty. Use Forget to remove it.'); return; }
+  n.s = v; n.corrected = true; n.conf = 1; n.prov = 'Corrected by owner on this device (demo) · supersedes ' + n.prov.split(' · ').pop();
+  openInspector(n.id); toast('Correction saved locally (demo). Production sends it to the gateway and waits for confirmation.');
+};
+let lastForgot = null;
+$('#iForget').onclick = () => {
+  const n = NODES.find(x => x.id === selected); if (!n || n.id === 'ren') return;
+  n.state = 'forgotten'; lastForgot = n.id; closeInspector(); renderGraph();
+  toastUndo(`“${n.t}” hidden from map (demo). Production: tombstone + verified deletion.`);
+};
+function toastUndo(msg){
+  toastEl.innerHTML = `${esc(msg)} <button class="link" type="button" id="undoForget" style="pointer-events:auto;min-height:36px">Undo</button>`;
+  toastEl.classList.add('show'); toastEl.style.pointerEvents = 'auto';
+  $('#undoForget').onclick = () => { const n = NODES.find(x => x.id === lastForgot); if (n) n.state = 'active'; renderGraph(); toastEl.classList.remove('show'); toastEl.style.pointerEvents = ''; toast('Restored.'); };
+  clearTimeout(toastT); toastT = setTimeout(() => { toastEl.classList.remove('show'); toastEl.style.pointerEvents = ''; }, 5000);
+}
+
+/* pan / zoom: graph coords (0..640) map to screen as x*k+tx. Nodes are placed in
+   screen space so their 44px hit targets never shrink with zoom (like map labels). */
+let k = 1, tx = 0, ty = 0, mapFitted = false;
+const MINK = .45, MAXK = 2.2;
+function applyT(){
+  const pos = {};
+  NODES.forEach(n => pos[n.id] = [n.x*k + tx, n.y*k + ty]);
+  graph.querySelectorAll('.node').forEach(b => { const [x,y] = pos[b.dataset.id]; b.style.left = x + 'px'; b.style.top = y + 'px'; });
+  svg.querySelectorAll('line').forEach(l => { const a = pos[l.dataset.a], c = pos[l.dataset.b]; l.setAttribute('x1',a[0]); l.setAttribute('y1',a[1]); l.setAttribute('x2',c[0]); l.setAttribute('y2',c[1]); });
+}
+function fitMap(){
+  const r = wrap.getBoundingClientRect(); if (!r.width) return;
+  const vis = NODES.filter(visible); if (!vis.length) return;
+  const xs = vis.map(n => n.x), ys = vis.map(n => n.y);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  // leave room for label half-widths, the filter bar on top, and the hint below
+  k = Math.max(MINK, Math.min(1.2, (r.width - 110) / Math.max(1, x1 - x0), (r.height - 140) / Math.max(1, y1 - y0)));
+  tx = r.width / 2 - ((x0 + x1) / 2) * k;
+  ty = (84 + r.height - 56) / 2 - ((y0 + y1) / 2) * k;
+  applyT(); mapFitted = true;
+}
+function zoomAt(nk, cx, cy){ nk = Math.max(MINK, Math.min(MAXK, nk)); tx = cx - (cx - tx) * (nk / k); ty = cy - (cy - ty) * (nk / k); k = nk; applyT(); }
+function center(){ const r = wrap.getBoundingClientRect(); return [r.width/2, r.height/2]; }
+$('#zIn').onclick = () => zoomAt(k * 1.25, ...center());
+$('#zOut').onclick = () => zoomAt(k / 1.25, ...center());
+$('#zFit').onclick = fitMap;
+function focusNode(id){
+  const n = NODES.find(x => x.id === id); if (!n) return;
+  if (n.state === 'forgotten'){ toast('That node was forgotten in this demo.'); return; }
+  if (!visible(n)){ mapState.cats.add(n.cat); mapState.personal = true; $('#personalSw').setAttribute('aria-checked','true'); renderFilters(); renderGraph(); }
+  if (!mapFitted) fitMap();
+  const r = wrap.getBoundingClientRect(); tx = r.width/2 - n.x*k; ty = r.height*0.32 - n.y*k; applyT();
+  openInspector(id);
+}
+const ptrs = new Map(); let panStart = null, pinch = null, moved = false;
+wrap.addEventListener('pointerdown', e => {
+  if (e.target.closest('.inspector,.maptools,.chipsbar')) return;
+  ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (ptrs.size === 1){ panStart = {x:e.clientX, y:e.clientY, tx, ty}; moved = false; }
+  if (ptrs.size === 2){
+    const [a,b] = [...ptrs.values()], r = wrap.getBoundingClientRect();
+    pinch = {d:Math.hypot(a.x-b.x, a.y-b.y), k, cx:(a.x+b.x)/2 - r.left, cy:(a.y+b.y)/2 - r.top, tx, ty}; moved = true;
+  }
+});
+wrap.addEventListener('pointermove', e => {
+  if (!ptrs.has(e.pointerId)) return;
+  ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (ptrs.size === 2 && pinch){
+    const [a,b] = [...ptrs.values()], d = Math.hypot(a.x-b.x, a.y-b.y);
+    const nk = Math.max(MINK, Math.min(MAXK, pinch.k * d / pinch.d));
+    tx = pinch.cx - (pinch.cx - pinch.tx) * (nk / pinch.k); ty = pinch.cy - (pinch.cy - pinch.ty) * (nk / pinch.k); k = nk; applyT();
+  } else if (ptrs.size === 1 && panStart){
+    const dx = e.clientX - panStart.x, dy = e.clientY - panStart.y;
+    if (!moved && Math.hypot(dx, dy) > 6){ moved = true; wrap.classList.add('dragging'); try { wrap.setPointerCapture(e.pointerId); } catch(_){} }
+    if (moved){ tx = panStart.tx + dx; ty = panStart.ty + dy; applyT(); }
+  }
+});
+function endPtr(e){
+  ptrs.delete(e.pointerId);
+  if (ptrs.size < 2) pinch = null;
+  if (ptrs.size === 1){ const [p] = [...ptrs.values()]; panStart = {x:p.x, y:p.y, tx, ty}; }
+  if (ptrs.size === 0){ panStart = null; wrap.classList.remove('dragging'); }
+}
+['pointerup','pointercancel'].forEach(t => wrap.addEventListener(t, endPtr));
+graph.addEventListener('click', e => {
+  const b = e.target.closest('.node'); if (!b) return;
+  if (moved){ moved = false; return; }
+  openInspector(b.dataset.id);
+});
+wrap.addEventListener('wheel', e => { if (e.target.closest('.inspector')) return; e.preventDefault(); const r = wrap.getBoundingClientRect(); zoomAt(k * Math.exp(-e.deltaY * .0015), e.clientX - r.left, e.clientY - r.top); }, {passive:false});
+window.addEventListener('resize', () => { if (current === 'map') fitMap(); else mapFitted = false; });
+
+/* ---------- settings ---------- */
+$$('.switch').forEach(s => s.addEventListener('click', () => {
+  const v = s.getAttribute('aria-checked') !== 'true'; s.setAttribute('aria-checked', String(v));
+  if (s.id === 'offlineSw') setOffline(v);
+  else if (s.id === 'personalSw'){ mapState.personal = v; renderGraph(); toast(v ? 'Personal nodes shown in map.' : 'Personal nodes hidden before layout.'); }
+  else toast('Demo setting. Nothing is persisted.');
+}));
+$('#testConn').onclick = () => toast(offline ? 'Demo: route unreachable (simulated). No request was made.' : 'Demo only: no request was made. A real build would call the documented health/capabilities check.');
+$('#lockNow').onclick = lock;
+$('#revokeBtn').onclick = () => { if (confirm('Demo: revoke the mobile token?\n\nNo token exists in this artifact. In the app this removes the Keychain item and tells you to revoke the key on the gateway.')) toast('Demo revoke complete. Nothing was contacted.'); };
+$('#eraseBtn').onclick = () => { if (confirm('Demo: erase local data and reset this page?')) { resetAll(); lock(); toast('Demo state erased.'); } };
+$('#resetDemo').onclick = () => { resetAll(); toast('Demo state reset.'); };
+
+function resetAll(){
+  gi = 0; ratings = []; renderGerman(); mi = 0; renderMandarin(); fi = 0; fTried = 0; fRight = 0; $('#fScore').textContent = '0 / 0'; renderFlag();
+  shopState.fav.clear(); shopState.elim.clear(); shopState.cmp.clear(); shopState.favOnly = false; renderShop();
+  resetNodes(); selected = null; mapState.cats = new Set(Object.keys(CAT)); mapState.personal = true; $('#personalSw').setAttribute('aria-checked','true'); renderFilters(); closeInspector(); renderGraph(); mapFitted = false;
+  $$('#reminders .rem').forEach(r => { r.classList.remove('done'); const b = r.querySelector('.check'); b.setAttribute('aria-pressed','false'); b.querySelector('i').textContent=''; }); updateRem();
+  pending = []; renderPending(); queue = []; if (offline) setOffline(false);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (apSheet.classList.contains('open') || cmpSheet.classList.contains('open')) closeSheets();
+  else if (insp.classList.contains('open')) closeInspector();
+  else { attachPanel.classList.remove('open'); voiceStop(false); }
+});
+
+/* init */
+renderGerman(); renderMandarin(); renderFlag(); renderShop(); resetNodes(); renderFilters(); renderGraph();
+views.forEach(v => v.classList.toggle('active', v.dataset.view === 'today'));
+$$('.tabbtn').forEach(b => b.dataset.go === 'today' && b.setAttribute('aria-current','page'));
+lockEl.classList.add('show');
+$$('.tab').forEach(b => b.setAttribute('aria-current', String(b.dataset.go === 'lock')));
+window.__hermesDemo = {show, route, state:() => ({current, locked, offline, gi, ratings:ratings.slice(), shop:{fav:[...shopState.fav], elim:[...shopState.elim], cmp:[...shopState.cmp]}, nodes:NODES.map(n => ({id:n.id, state:n.state, corrected:n.corrected})), k, tx, ty})};
+})();
+</script>
 </body>
 </html>
